@@ -14,7 +14,7 @@ class StockPileNotifier extends ChangeNotifier {
 
   //List of stockpile
   final List<StockPile> _pile = [
-    StockPile(name: "Get 3 packs of chocolate"),
+    //StockPile(name: "Get 3 packs of chocolate 🍫"),
   ];
   //Getter to get list of the _pile
   int get pileItemAmount => _pile.length;

@@ -17,7 +17,7 @@ class MyHomePage extends StatelessWidget {
         title: Text(
           "StockPile",
           style: GoogleFonts.raleway(
-            textStyle: const TextStyle(color: Color(0xFF0C2539)),
+            textStyconst le: const TextStyle(color: Color(0xFF0C2539)),
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
@@ -39,28 +39,42 @@ class MyHomePage extends StatelessWidget {
         return pileItemModel.pileItemAmount == 0
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                //crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    "Add a Pile to your StockPile",
-                    style: GoogleFonts.raleway(
-                      textStyle: const TextStyle(color: Color(0x690C2539)),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  //Expanded(child: Container()),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 50),
-                        child: Image.asset(
-                          "images/stockpile.png",
-                          height: 90,
+                      Center(
+                        child: Text(
+                          "Add a Pile to your StockPile",
+                          style: GoogleFonts.raleway(
+                            textStyle:
+                                const TextStyle(color: Color(0x690C2539)),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
                         ),
                       ),
-                      //const SizedBox(width: 50)
                     ],
+                  ),
+                  // Column(
+                  //   children: [
+                  //     SizedBox(height: 20),
+                  //   ],
+                  // ),
+                  SizedBox(height: 20),             
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 100),
+                      child: SizedBox(
+                        child: Image.asset(
+                          "images/here.png",
+                          height: 150,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               )
@@ -131,32 +145,36 @@ class MyHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         tileColor: const Color(0x2C0D2E68),
-                        title: GestureDetector(
-                          onTap: () async {
-                            final updatedPileItem = await createAndUpdateDialog(
-                                context, "Update a Pile", pileItem);
+                        title: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              final updatedPileItem =
+                                  await createAndUpdateDialog(
+                                      context, "Update a Pile", pileItem);
 
-                            if (updatedPileItem!.name == "") {
-                              // pileItemModel.update(updatedPileItem);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  duration: Duration(seconds: 1),
-                                  backgroundColor: Colors.red,
-                                  content: Text("Fill in the fields"),
-                                ),
-                              );
-                            }
-                            if (updatedPileItem.name != "") {
-                              pileItemModel.update(updatedPileItem);
-                            }
-                          },
-                          child: Text(
-                            pileItem.displayName,
-                            style: GoogleFonts.raleway(
-                              textStyle:
-                                  const TextStyle(color: Color(0xFF0C2539)),
-                              //  fontWeight: FontWeight.
-                              fontSize: 19,
+                              if (updatedPileItem!.name == "") {
+                                // pileItemModel.update(updatedPileItem);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    duration: Duration(seconds: 1),
+                                    backgroundColor: Colors.red,
+                                    content: Text("Fill in the fields"),
+                                  ),
+                                );
+                              }
+                              if (updatedPileItem.name != "") {
+                                pileItemModel.update(updatedPileItem);
+                              }
+                            },
+                            child: Text(
+                              pileItem.displayName,
+                              style: GoogleFonts.raleway(
+                                textStyle:
+                                    const TextStyle(color: Color(0xFF0C2539)),
+                                //  fontWeight: FontWeight.
+                                fontSize: 19,
+                              ),
                             ),
                           ),
                         ),
@@ -271,16 +289,26 @@ Future<StockPile?> createAndUpdateDialog(
           controller: pileController,
           cursorColor: const Color(0xFF0C2539),
           autofocus: true,
-          decoration: const InputDecoration(
-            hintText: "Add a Pile to your Stock pile",
-            // hintStyle: TextStyle(
-            //   fontFamily: GoogleFonts.raleway(
-            //                 textStyle:
-            //                     const TextStyle(color: Color(0xFF0C2539)),
-            //                 //  fontWeight: FontWeight.
-            //                 fontSize: 19,
-            //               ),
+          decoration: InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: const Color(0xFF0C2539)),
+            ),
+            // focusedBorder: UnderlineInputBorder(
+            //   borderSide: BorderSide(color: const Color(0xFF0C2539)),
             // ),
+            hintText: "Add a Pile to your Stock pile",
+            hintStyle: GoogleFonts.raleway(),
+
+            //hintStyle: TextStyle(
+            //   // fontFamily: GoogleFonts.raleway(
+            //   //               textStyle:
+            //   //                   const TextStyle(color: Color(0xFF0C2539)),
+            //   //               //  fontWeight: FontWeight.
+            //   //               fontSize: 19,
+            //   //             ),
+            //  // fontFamily:
+            // ),
+
             focusColor: Color(0xFF0C2539),
             // focusedBorder: InputBorder(
             //   borderSide: Borde

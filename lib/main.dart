@@ -21,14 +21,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'StockPile',
       theme: ThemeData(
-          //primaryColor: Color(0xFF0C2539),
-          indicatorColor: Color(0xFF0C2539),
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            secondary: const Color(0xFF0C2539),
-          )
-          //primarySwatch: Color(0xFF0C2539)
+        textSelectionTheme: const TextSelectionThemeData(
+          selectionHandleColor: Color(0xFF0C2539),
+        ),
+        //primaryColor: Color(0xFF0C2539),
+        indicatorColor: Color(0xFF0C2539),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          secondary: const Color(0xFF0C2539),
+        ),
 
-          ),
+        //primarySwatch: Color(0xFF0C2539)
+      ),
       home: const MyHomePage(),
     );
   }
