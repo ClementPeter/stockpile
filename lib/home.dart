@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stockpile/model/stockpile.dart';
 import 'package:stockpile/providers/stockpile_changeNotifier.dart';
 import 'package:stockpile/widget/custom_fab.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:stockpile/widget/custom_snackbar.dart';
 //import 'package:custom_floating_action_button/custom_floating_action_button.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -11,75 +14,62 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-        //stream: null,
-        builder: (context, WidgetRef ref, child) {
-      //Source code for "CustomFloatingActionButton" was modified in this project
+    return Consumer(builder: (context, WidgetRef ref, child) {
       return CustomFloatingActionButton(
-        spaceFromRight: 50,
+        spaceFromRight: 40,
         spaceFromBottom: 50,
-        openFloatingActionButton: Container(
-            // width: 30,
-            // height: 30,
-            // decoration: const BoxDecoration(
-            //   color: Colors.red,
-            //   image: DecorationImage(
-            //     image: AssetImage("images/stockpile.png"),
-            //     fit: BoxFit.cover,
-            //   ),
-            //   // borderRadius: BorderRadius.all(Radius.circular(10)),
-            // ),
-            ),
-        // openFloatingActionButton:  Image.asset(
-        //     "images/stockpile.png",
-        //     height: 30,
-        //   ),
-        // openFloatingActionButton: const Icon(
-        //   Icons.add,
-        //   shadows: [
-        //     Shadow(color: Color(0xFF0C2539), blurRadius: 50.0),
-        //   ],
-        // ),
-        // openFloatingActionButton: FloatingActionButton(
-        //   mini: false,
-        //   backgroundColor: Colors.white,
-        //   onPressed: () {
-        //     // final dataModel = ref.read(stockPileProvider);
-        //     // dataModel.addPileItem();
-        //   },
-        // child: Image.asset(
-        //   "images/stockpile.png",
-        //   height: 30,
-        // ),
-        // ),
         type: CustomFloatingActionButtonType.verticalUp,
-        closeFloatingActionButton: const Icon(Icons.close),
-
-        options: [
-          FloatingActionButton(onPressed: () {}),
-          const SizedBox(width: 10),
-          FloatingActionButton(
-            onPressed: () {
-              final dataModel = ref.read(stockPileProvider);
-              dataModel.clearPile();
-            },
-            child: const Icon(
-              Icons.delete,
-              size: 22,
+        openFloatingActionButton: Container(
+          width: 30,
+          height: 30,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/stockpile.png"),
+              fit: BoxFit.cover,
             ),
           ),
-          // CircleAvatar(
-          //   child: Icon(Icons.title),
-          // ),
-          // CircleAvatar(
-          //   child: Icon(Icons.translate),
-          // ),
-          // CircleAvatar(
-          //   child: Icon(Icons.email),
-          // ),
-          // CircleAvatar(
-          //   child: Icon(Icons.star),
-          // ),
+        ),
+        closeFloatingActionButton: const Icon(Icons.close),
+        options: [
+          Column(
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  final dataModel = ref.read(stockPileProvider);
+                  dataModel.clearPile();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      duration: const Duration(seconds: 2),
+                      content: customSnackBarContent(
+                        text: "Successfully cleared StockPile",
+                      ),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.delete, size: 22),
+              ),
+              const SizedBox(height: 10),
+              FloatingActionButton(
+                child: const Icon(Icons.add, size: 22),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      duration: const Duration(seconds: 2),
+                      content: customSnackBarContent(
+                        text: "Successfully added to StockPile",
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),      
         ],
         body: Scaffold(
           appBar: AppBar(
@@ -180,13 +170,13 @@ class MyHomePage extends StatelessWidget {
 
                                   if (updatedPileItem!.name == "") {
                                     // pileItemModel.update(updatedPileItem);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        duration: Duration(seconds: 1),
-                                        backgroundColor: Colors.red,
-                                        content: Text("Fill in the fields"),
-                                      ),
-                                    );
+                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                    // const SnackBar(
+                                    //   duration: Duration(seconds: 1),
+                                    //   backgroundColor: Colors.red,
+                                    //   content: Text("Fill in the fields"),
+                                    // ),
+                                    // );
                                   }
                                   if (updatedPileItem.name != "") {
                                     pileItemModel.update(updatedPileItem);
@@ -207,46 +197,47 @@ class MyHomePage extends StatelessWidget {
                       );
                     });
           }),
-          floatingActionButton:
-              Consumer(builder: (context, WidgetRef ref, child) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  onPressed: () async {
-                    final newpileItem =
-                        await createAndUpdateDialog(context, "Create a Pile");
-                    //verify then update the ChangeNotifierProvider
-                    //if item is available add it to the List
-                    if (newpileItem != null) {
-                      final dataModel = ref.read(stockPileProvider);
-                      dataModel.addPile(newpileItem);
-                    }
-                  },
-                  child: Image.asset(
-                    "images/stockpile.png",
-                    height: 30,
-                  ),
-                ),
-                const SizedBox(width: 30),
-                FloatingActionButton(
-                  onPressed: () {
-                    final dataModel = ref.read(stockPileProvider);
-                    dataModel.clearPile();
-                  },
-                  child: const Icon(
-                    Icons.delete,
-                    size: 22,
-                  ),
-                ),
-              ],
-            );
-          }),
+          // floatingActionButton:
+          //     Consumer(builder: (context, WidgetRef ref, child) {
+          //   return Row(
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       FloatingActionButton(
+          //         backgroundColor: Colors.white,
+          //         onPressed: () async {
+          //           final newpileItem =
+          //               await createAndUpdateDialog(context, "Create a Pile");
+          //           //verify then update the ChangeNotifierProvider
+          //           //if item is available add it to the List
+          //           if (newpileItem != null) {
+          //             final dataModel = ref.read(stockPileProvider);
+          //             dataModel.addPile(newpileItem);
+          //           }
+          //         },
+          //         child: Image.asset(
+          //           "images/stockpile.png",
+          //           height: 30,
+          //         ),
+          //       ),
+          //       const SizedBox(width: 30),
+          //       FloatingActionButton(
+          //         onPressed: () {
+          //           final dataModel = ref.read(stockPileProvider);
+          //           dataModel.clearPile();
+          //         },
+          //         child: const Icon(
+          //           Icons.delete,
+          //           size: 22,
+          //         ),
+          //       ),
+          //     ],
+          //   );
+          // }),
         ),
       );
     });
   }
+
 }
 
 //*******************************************************//
@@ -327,6 +318,19 @@ Future<StockPile?> createAndUpdateDialog(
                 if (existingPileItem != null) {
                   //have exisitng pile item
                   final newPileItem = existingPileItem.updated(name);
+
+                  SnackBar(
+                    duration: Duration(seconds: 2),
+                    // backgroundColor: Colors.red,
+                    //content: Text("Fill in the fields"),
+                    content: AwesomeSnackbarContent(
+                      title: '',
+                      message: 'Updated Successfully !',
+
+                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                      contentType: ContentType.success,
+                    ),
+                  );
                   Navigator.of(context).pop(newPileItem);
                 } else {
                   //no existing person, create new one
@@ -335,10 +339,18 @@ Future<StockPile?> createAndUpdateDialog(
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    duration: Duration(seconds: 1),
-                    backgroundColor: Colors.red,
-                    content: Text("Fill in the fields"),
+                  SnackBar(
+                    elevation: 0,
+                    duration: Duration(seconds: 3),
+                    backgroundColor: Colors.transparent,
+                    //content: Text("Fill in the fields"),
+                    content: AwesomeSnackbarContent(
+                      title: '',
+                      message: 'Fill in the fields !',
+
+                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                      contentType: ContentType.failure,
+                    ),
                   ),
                 );
               }

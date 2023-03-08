@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockpile/model/stockpile.dart';
 
 //Create Provider to pass StockPileNotifier to our App
-final stockPileProvider = ChangeNotifierProvider((_) {
+final stockPileProvider = ChangeNotifierProvider<StockPileNotifier>((ref) {
   return StockPileNotifier();
 });
 
@@ -14,7 +14,9 @@ class StockPileNotifier extends ChangeNotifier {
 
   //List of stockpile
   final List<StockPile> _pile = [
-    //StockPile(name: "Get 3 packs of chocolate 🍫"),
+    StockPile(name: "Get 3 packs of chocolate 🍫"),
+    StockPile(name: "Get 1 packs of chocolate 🍫"),
+    StockPile(name: "Get 2 packs of chocolate 🍫"),
   ];
   //Getter to get list of the _pile
   int get pileItemAmount => _pile.length;

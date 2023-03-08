@@ -106,16 +106,17 @@ class _CustomFloatingActionButtonState
               }
             },
             child: Container(
-              height: 100,
-              width: 100,
+              height: 55,
+              width: 55,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                //shape: BoxShape.circle,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: widget.floatinButtonColor ?? Colors.white,
                 boxShadow: const [
                   BoxShadow(
-                    color: Colors.black54,
-                    blurRadius: 50,
+                    color: Color(0x6B0C2539),
+                    blurRadius: 30,
+                    // spreadRadius: 10,
                   ),
                 ],
               ),
@@ -175,7 +176,7 @@ class _CustomFloatingActionButtonState
       fourthItemY = widget.spaceFromBottom! - 210;
       fifthItemX = widget.spaceFromRight! + 5;
       fifthItemY = widget.spaceFromBottom! - 260;
-    } else  if (widget.type == CustomFloatingActionButtonType.circular) {
+    } else if (widget.type == CustomFloatingActionButtonType.circular) {
       if (widget.spaceFromBottom != null) {
         topPositionY = 65 + widget.spaceFromBottom!;
         bottomPositionY = widget.spaceFromBottom! - 55;
@@ -238,12 +239,21 @@ class _CustomFloatingActionButtonState
               Navigator.of(context).pop();
             },
             child: Container(
-              height: 50,
-              width: 50,
+              height: 55,
+              width: 55,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                // shape: BoxShape.circle,
+                //color: widget.floatinButtonColor ?? Colors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: widget.floatinButtonColor ?? Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x6B0C2539),
+                    blurRadius: 30,
+                    // spreadRadius: 10,
+                  ),
+                ],
               ),
               child: Material(
                 color: Colors.transparent,
