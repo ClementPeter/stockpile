@@ -1,11 +1,381 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:stockpile/model/stockpile.dart';
+// import 'package:stockpile/providers/stockpile_changeNotifier.dart';
+// import 'package:stockpile/widget/custom_fab.dart';
+// import 'package:stockpile/widget/custom_snackbar.dart';
+// //import 'package:custom_floating_action_button/custom_floating_action_button.dart';
+
+// class MyHomePage extends StatelessWidget {
+//   const MyHomePage({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer(builder: (context, WidgetRef ref, child) {
+//       return CustomFloatingActionButton(
+//         spaceFromRight: 40,
+//         spaceFromBottom: 50,
+//         type: CustomFloatingActionButtonType.verticalUp,
+//         openFloatingActionButton: Container(
+//           width: 30,
+//           height: 30,
+//           decoration: const BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage("images/stockpile.png"),
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//         ),
+//         closeFloatingActionButton: const Icon(Icons.close),
+//         options: [
+//           Column(
+//             children: [
+//               FloatingActionButton(
+//                 onPressed: () {
+//                   final dataModel = ref.read(stockPileProvider);
+//                   dataModel.clearPile();
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                     SnackBar(
+//                       behavior: SnackBarBehavior.floating,
+//                       backgroundColor: Colors.transparent,
+//                       elevation: 0,
+//                       duration: const Duration(seconds: 2),
+//                       content: customSnackBarContent(
+//                         text: "Successfully cleared StockPile",
+//                       ),
+//                     ),
+//                   );
+//                 },
+//                 child: const Icon(Icons.delete, size: 22),
+//               ),
+//               const SizedBox(height: 10),
+//               FloatingActionButton(
+//                 child: const Icon(Icons.add, size: 22),
+//                 onPressed: () {
+//                   ScaffoldMessenger.of(context).showSnackBar(
+//                     SnackBar(
+//                       behavior: SnackBarBehavior.floating,
+//                       backgroundColor: Colors.transparent,
+//                       elevation: 0,
+//                       duration: const Duration(seconds: 2),
+//                       content: customSnackBarContent(
+//                         text: "Successfully added to StockPile",
+//                       ),
+//                     ),
+//                   );
+//                 },
+//               ),
+//             ],
+//           ),
+//         ],
+//         body: Scaffold(
+//           appBar: AppBar(
+//             centerTitle: true,
+//             elevation: 0,
+//             backgroundColor: const Color(0XFFFCFAFF),
+//             title: Text(
+//               "StockPile",
+//               style: GoogleFonts.raleway(
+//                 textStyle: const TextStyle(color: Color(0xFF0C2539)),
+//                 fontWeight: FontWeight.bold,
+//                 fontSize: 24,
+//               ),
+//             ),
+//           ),
+//           body: Consumer(builder: (context, ref, child) {
+//             final pileItemModel = ref.watch(stockPileProvider);
+//             return pileItemModel.pileItemAmount == 0
+//                 ? Column(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       Column(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           Center(
+//                             child: Text(
+//                               "Add a Pile to your StockPile",
+//                               style: GoogleFonts.raleway(
+//                                 textStyle:
+//                                     const TextStyle(color: Color(0x690C2539)),
+//                                 fontWeight: FontWeight.bold,
+//                                 fontSize: 25,
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       const SizedBox(height: 20),
+//                       Align(
+//                         alignment: Alignment.centerRight,
+//                         child: Padding(
+//                           padding: const EdgeInsets.only(right: 130),
+//                           //padding: const EdgeInsets.symmetric(horizontal: 900),
+//                           child: SizedBox(
+//                             child: Image.asset(
+//                               "images/here.png",
+//                               height: 200,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   )
+//                 : ListView.builder(
+//                     itemCount: pileItemModel.pileItemAmount,
+//                     itemBuilder: (context, index) {
+//                       final pileItem = pileItemModel.pile[index];
+//                       return Padding(
+//                         padding: const EdgeInsets.symmetric(
+//                             horizontal: 10, vertical: 5),
+//                         child: Dismissible(
+//                           key: Key(pileItem.name),
+//                           direction: DismissDirection.endToStart,
+//                           onDismissed: (direction) {
+//                             pileItemModel.removePile(pileItem);
+//                             //print(pileItemModel.pileItemAmount);
+//                           },
+//                           background: Container(
+//                             padding: const EdgeInsets.symmetric(horizontal: 20),
+//                             decoration: BoxDecoration(
+//                               color: const Color(0xFFFFE6E6),
+//                               borderRadius: BorderRadius.circular(10),
+//                             ),
+//                             child: Row(
+//                               children: const [
+//                                 Spacer(),
+//                                 Icon(
+//                                   Icons.delete_outline,
+//                                   color: Color(0xB70C2539),
+//                                   //size: 36.0,
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                           child: ListTile(
+//                             shape: RoundedRectangleBorder(
+//                               borderRadius: BorderRadius.circular(10),
+//                             ),
+//                             tileColor: const Color(0x2C0D2E68),
+//                             title: Padding(
+//                               padding:
+//                                   const EdgeInsets.symmetric(horizontal: 20),
+//                               child: GestureDetector(
+//                                 onTap: () async {
+//                                   final updatedPileItem =
+//                                       await createAndUpdateDialog(
+//                                           context, "Update a Pile", pileItem);
+
+//                                   if (updatedPileItem!.name == "") {
+//                                     // pileItemModel.update(updatedPileItem);
+//                                     // ScaffoldMessenger.of(context).showSnackBar(
+//                                     // const SnackBar(
+//                                     //   duration: Duration(seconds: 1),
+//                                     //   backgroundColor: Colors.red,
+//                                     //   content: Text("Fill in the fields"),
+//                                     // ),
+//                                     // );
+//                                   }
+//                                   if (updatedPileItem.name != "") {
+//                                     pileItemModel.update(updatedPileItem);
+//                                   }
+//                                 },
+//                                 child: Text(
+//                                   pileItem.displayName,
+//                                   style: GoogleFonts.raleway(
+//                                     textStyle: const TextStyle(
+//                                         color: Color(0xFF0C2539)),
+//                                     fontSize: 19,
+//                                   ),
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       );
+//                     });
+//           }),
+//           // floatingActionButton:
+//           //     Consumer(builder: (context, WidgetRef ref, child) {
+//           //   return Row(
+//           //     mainAxisAlignment: MainAxisAlignment.end,
+//           //     children: [
+//           //       FloatingActionButton(
+//           //         backgroundColor: Colors.white,
+//           //         onPressed: () async {
+//           //           final newpileItem =
+//           //               await createAndUpdateDialog(context, "Create a Pile");
+//           //           //verify then update the ChangeNotifierProvider
+//           //           //if item is available add it to the List
+//           //           if (newpileItem != null) {
+//           //             final dataModel = ref.read(stockPileProvider);
+//           //             dataModel.addPile(newpileItem);
+//           //           }
+//           //         },
+//           //         child: Image.asset(
+//           //           "images/stockpile.png",
+//           //           height: 30,
+//           //         ),
+//           //       ),
+//           //       const SizedBox(width: 30),
+//           //       FloatingActionButton(
+//           //         onPressed: () {
+//           //           final dataModel = ref.read(stockPileProvider);
+//           //           dataModel.clearPile();
+//           //         },
+//           //         child: const Icon(
+//           //           Icons.delete,
+//           //           size: 22,
+//           //         ),
+//           //       ),
+//           //     ],
+//           //   );
+//           // }),
+//         ),
+//       );
+//     });
+//   }
+
+// }
+
+// //*******************************************************//
+
+// //creating the dialog function used by the ListTile and FAB
+
+// final pileController = TextEditingController();
+
+// Future<StockPile?> createAndUpdateDialog(
+//   BuildContext context,
+//   String? title, [
+//   StockPile? existingPileItem,
+// ]) {
+//   String? name = existingPileItem?.name;
+
+//   //the dialog should contain the existing name from the ListTile or be empty
+//    pileController.text = name ?? "";
+
+//   return showDialog<StockPile?>(
+//     context: context,
+//     builder: ((context) {
+//       return AlertDialog(
+//         shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(20.0)),
+//         ),
+//         icon: Center(
+//           child: Image.asset(
+//             "images/stockpile.png",
+//             height: 30,
+//           ),
+//         ),
+//         title: Text(
+//           title!,
+//           style: GoogleFonts.raleway(
+//             textStyle: const TextStyle(color: Color(0xFF0C2539)),
+//             fontWeight: FontWeight.bold,
+//             fontSize: 22,
+//           ),
+//         ),
+//         content: TextField(
+//           controller: pileController,
+//           cursorColor: const Color(0xFF0C2539),
+//           autofocus: true,
+//           decoration: InputDecoration(
+//             enabledBorder: const UnderlineInputBorder(
+//               borderSide: BorderSide(color: Color(0xFF0C2539)),
+//             ),
+//             focusedBorder: const UnderlineInputBorder(
+//               borderSide: BorderSide(color: Color(0xFF0C2539)),
+//             ),
+//             hintText: "Add a Pile to your Stock pile",
+//             hintStyle: GoogleFonts.raleway(),
+//             focusColor: const Color(0xFF0C2539),
+//           ),
+//           onChanged: ((value) {
+//             name = value;
+//           }),
+//         ),
+//         actions: [
+//           TextButton(
+//             style: TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
+//             child: const Text(
+//               "Cancel",
+//               style: TextStyle(color: Color(0xFF0C2539)),
+//             ),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//           TextButton(
+//             style: TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
+//             child: const Text(
+//               "Save",
+//               style: TextStyle(color: Color(0xFF0C2539)),
+//             ),
+//             onPressed: () {
+//               if (name != null) {
+//                 if (existingPileItem != null) {
+//                   //have exisitng pile item
+//                   final newPileItem = existingPileItem.updated(name);
+
+//                   SnackBar(
+//                     duration: const Duration(seconds: 2),
+//                     content: customSnackBarContent(text:  'Updated Successfully!'),
+//                   );
+//                   Navigator.of(context).pop(newPileItem);
+//                 } else {
+//                   //no existing person, create new one
+//                   final newPileItem = StockPile(name: name!);
+//                   Navigator.of(context).pop(newPileItem);
+//                 }
+//               } else {
+//                 ScaffoldMessenger.of(context).showSnackBar(
+//                   SnackBar(
+//                     elevation: 0,
+//                     duration: const Duration(seconds: 3),
+//                     backgroundColor: Colors.transparent,
+//                     content: customSnackBarContent(text:  'Fill in the Fields!'),
+//                   ),
+//                 );
+//               }
+//             },
+//           ),
+//         ],
+//       );
+//     }),
+//   );
+// }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//:::::::::::::REBUILDING STOCKPILE USING STATENOTIFIER PROVIDER::::::::::::::://
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stockpile/model/stockpile.dart';
 import 'package:stockpile/providers/stockpile_changeNotifier.dart';
+import 'package:stockpile/providers/stockpile_stateNotifier.dart';
 import 'package:stockpile/widget/custom_fab.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:stockpile/widget/custom_snackbar.dart';
 //import 'package:custom_floating_action_button/custom_floating_action_button.dart';
 
@@ -35,9 +405,12 @@ class MyHomePage extends StatelessWidget {
             children: [
               FloatingActionButton(
                 onPressed: () {
-                  final dataModel = ref.read(stockPileProvider);
-                  dataModel.clearPile();
-                      ScaffoldMessenger.of(context).showSnackBar(
+                  //  final dataModel = ref.read(stockPileStateNotifierProvider.notifier);
+                  //  dataModel!.clearPile();
+
+                  ref.read(stockPileStateNotifierProvider.notifier).clearPile();
+
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: Colors.transparent,
@@ -69,7 +442,7 @@ class MyHomePage extends StatelessWidget {
                 },
               ),
             ],
-          ),      
+          ),
         ],
         body: Scaffold(
           appBar: AppBar(
@@ -86,11 +459,13 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           body: Consumer(builder: (context, ref, child) {
-            final pileItemModel = ref.watch(stockPileProvider);
-            return pileItemModel.pileItemAmount == 0
+            final pileItemModel =
+                ref.watch(stockPileStateNotifierProvider.notifier);
+            return pileItemModel.stateLength == 0
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      //Text Watermarked page when there is no item on the (ChangeNotifierprovider) List
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -124,9 +499,9 @@ class MyHomePage extends StatelessWidget {
                     ],
                   )
                 : ListView.builder(
-                    itemCount: pileItemModel.pileItemAmount,
+                    itemCount: pileItemModel.stateLength,
                     itemBuilder: (context, index) {
-                      final pileItem = pileItemModel.pile[index];
+                      final pileItem = pileItemModel.stateList[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),
@@ -135,7 +510,6 @@ class MyHomePage extends StatelessWidget {
                           direction: DismissDirection.endToStart,
                           onDismissed: (direction) {
                             pileItemModel.removePile(pileItem);
-                            //print(pileItemModel.pileItemAmount);
                           },
                           background: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -168,17 +542,17 @@ class MyHomePage extends StatelessWidget {
                                       await createAndUpdateDialog(
                                           context, "Update a Pile", pileItem);
 
-                                  if (updatedPileItem!.name == "") {
-                                    // pileItemModel.update(updatedPileItem);
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    // const SnackBar(
-                                    //   duration: Duration(seconds: 1),
-                                    //   backgroundColor: Colors.red,
-                                    //   content: Text("Fill in the fields"),
-                                    // ),
-                                    // );
-                                  }
-                                  if (updatedPileItem.name != "") {
+                                  // if (updatedPileItem!.name == "") {
+                                  //   pileItemModel.update(updatedPileItem);
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //   const SnackBar(
+                                  //     duration: Duration(seconds: 1),
+                                  //     backgroundColor: Colors.red,
+                                  //     content: Text("Fill in the fields"),
+                                  //   ),
+                                  //   );
+                                  // }
+                                  if (updatedPileItem!.name != "") {
                                     pileItemModel.update(updatedPileItem);
                                   }
                                 },
@@ -237,7 +611,6 @@ class MyHomePage extends StatelessWidget {
       );
     });
   }
-
 }
 
 //*******************************************************//
@@ -290,7 +663,7 @@ Future<StockPile?> createAndUpdateDialog(
             ),
             hintText: "Add a Pile to your Stock pile",
             hintStyle: GoogleFonts.raleway(),
-            focusColor: Color(0xFF0C2539),
+            focusColor: const Color(0xFF0C2539),
           ),
           onChanged: ((value) {
             name = value;
@@ -298,7 +671,8 @@ Future<StockPile?> createAndUpdateDialog(
         ),
         actions: [
           TextButton(
-            style: TextButton.styleFrom(foregroundColor: Color(0xFF0C2539)),
+            style:
+                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
             child: const Text(
               "Cancel",
               style: TextStyle(color: Color(0xFF0C2539)),
@@ -308,7 +682,8 @@ Future<StockPile?> createAndUpdateDialog(
             },
           ),
           TextButton(
-            style: TextButton.styleFrom(foregroundColor: Color(0xFF0C2539)),
+            style:
+                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
             child: const Text(
               "Save",
               style: TextStyle(color: Color(0xFF0C2539)),
@@ -320,16 +695,9 @@ Future<StockPile?> createAndUpdateDialog(
                   final newPileItem = existingPileItem.updated(name);
 
                   SnackBar(
-                    duration: Duration(seconds: 2),
-                    // backgroundColor: Colors.red,
-                    //content: Text("Fill in the fields"),
-                    content: AwesomeSnackbarContent(
-                      title: '',
-                      message: 'Updated Successfully !',
-
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.success,
-                    ),
+                    duration: const Duration(seconds: 2),
+                    content:
+                        customSnackBarContent(text: 'Updated Successfully!'),
                   );
                   Navigator.of(context).pop(newPileItem);
                 } else {
@@ -341,16 +709,9 @@ Future<StockPile?> createAndUpdateDialog(
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     elevation: 0,
-                    duration: Duration(seconds: 3),
+                    duration: const Duration(seconds: 3),
                     backgroundColor: Colors.transparent,
-                    //content: Text("Fill in the fields"),
-                    content: AwesomeSnackbarContent(
-                      title: '',
-                      message: 'Fill in the fields !',
-
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.failure,
-                    ),
+                    content: customSnackBarContent(text: 'Fill in the Fields!'),
                   ),
                 );
               }

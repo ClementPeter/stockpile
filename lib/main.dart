@@ -69,7 +69,7 @@ class Home extends StatefulWidget {
 
 //WidgetBinding Oberver must be implemeented to use "didChangeAppLifeCylce"
 class _HomeState extends State<Home> with WidgetsBindingObserver {
-
+  
   @override
   void initState() {
     // TODO: implement initState

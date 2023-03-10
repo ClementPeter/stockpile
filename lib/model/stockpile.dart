@@ -16,7 +16,7 @@ class StockPile {
   }
 
   //
-  String get displayName => "$name";
+  String get displayName => name;
 
   //to compare and make sure the object is unique - NECCESSARY : helps us to update stuff
   //the operator checks the uuid property of the "other" object to see if its equal to the object being compared too

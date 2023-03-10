@@ -8,7 +8,6 @@
 //   return CartStateNotifier();
 // });
 
-
 // //State notifier is more preferred to Change Provider Notifier
 // class CartStateNotifier extends StateNotifier<List<Product>> {
 //   //super helps  define the initial state of our object : super[->empty List<-]
@@ -23,23 +22,32 @@
 //   }
 // }
 
-
+import 'dart:collection';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockpile/model/stockpile.dart';
 
-final stockPileStateProvider = StateNotifierProvider((ref) {
+final stockPileStateNotifierProvider = StateNotifierProvider((ref) {
   return StockPileStateNotifier();
 });
 
-
-class StockPileStateNotifier extends StateNotifier{
+class StockPileStateNotifier extends StateNotifier {
   StockPileStateNotifier() : super([]);
 
-   void addPile(StockPile pile) {
-    state =[...state , pile];
-   //_pile.add(pile);
-   //     notifyListeners();
+  @override
+  var state = [
+    StockPile(name: "Get 3 packs of chocolate 🍫"),
+    StockPile(name: "Get 1 packs of chocolate 🍫"),
+  ]; //Wrong
+
+  UnmodifiableListView get stateList => state;
+
+  int get stateLength => state.length; //wrong
+
+  void addPile(StockPile pile) {
+    state = [...state, pile];
+    //_pile.add(pile);
+    //     notifyListeners();
   }
 
   // void removePile (StockPile pile){
@@ -48,14 +56,26 @@ class StockPileStateNotifier extends StateNotifier{
 
   // }
 
-  void removePile(StockPile pile){
+  //Update an existing pile
+  void removePile(StockPile pile) {
     state = state.where((p) => p != pile).toList();
   }
 
-  void clearCart(){
-    state= [];
+  //Update an existing pile
+  void update(StockPile updatedPileItem) {
+    final index = state.indexOf(updatedPileItem);
+
+    final oldPileItem = state[index];
+
+    if (oldPileItem.name != updatedPileItem.name) {
+      //if it's not equal ; meaning they are different , thus update the value
+      state[index] = oldPileItem.updated(updatedPileItem.name);
+    }
   }
-  
+
+  void clearPile() {
+    state = [];
+  }
 } 
 
 

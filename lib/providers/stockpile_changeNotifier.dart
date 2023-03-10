@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockpile/model/stockpile.dart';
 
 //Create Provider to pass StockPileNotifier to our App
-final stockPileProvider = ChangeNotifierProvider<StockPileNotifier>((ref) {
+final stockPileChangeNotifierProvider =
+    ChangeNotifierProvider<StockPileNotifier>((ref) {
   return StockPileNotifier();
 });
 
@@ -36,7 +37,7 @@ class StockPileNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  //Update an existing pil
+  //Update an existing pile
   void update(StockPile updatedPileItem) {
     //check if the updatedPile already exist in the _pile index
     final index = _pile.indexOf(updatedPileItem);
