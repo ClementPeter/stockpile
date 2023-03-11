@@ -16,8 +16,6 @@ class StockPileNotifier extends ChangeNotifier {
   //List of stockpile
   final List<StockPile> _pile = [
     StockPile(name: "Get 3 packs of chocolate 🍫"),
-    StockPile(name: "Get 1 packs of chocolate 🍫"),
-    StockPile(name: "Get 2 packs of chocolate 🍫"),
   ];
   //Getter to get list of the _pile
   int get pileItemAmount => _pile.length;
@@ -52,11 +50,11 @@ class StockPileNotifier extends ChangeNotifier {
   }
 
   void clearPile() {
-    print(":::::::::::::::::::BEFORE CLEAR PILE::::::::::::::::::::::::");
+    //print(":::::::::::::::::::BEFORE CLEAR PILE::::::::::::::::::::::::");
     print(_pile);
     _pile.clear();
-    print(":::::::::::::::::::CLEAR PILE::::::::::::::::::::::::");
-    print(_pile);
+    // print(":::::::::::::::::::CLEAR PILE::::::::::::::::::::::::");
+    // print(_pile);
     notifyListeners();
   }
 }

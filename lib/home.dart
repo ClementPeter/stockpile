@@ -14,7 +14,7 @@ class MyHomePage extends StatelessWidget {
     return Consumer(builder: (context, WidgetRef ref, child) {
       return CustomFloatingActionButton(
         spaceFromRight: 40,
-        spaceFromBottom: 50,
+        spaceFromBottom: 80,
         type: CustomFloatingActionButtonType.verticalUp,
         openFloatingActionButton: Container(
           width: 30,
@@ -41,19 +41,6 @@ class MyHomePage extends StatelessWidget {
                     final dataModel = ref.read(stockPileChangeNotifierProvider);
                     dataModel.addPile(newPileItem);
                   }
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     behavior: SnackBarBehavior.floating,
-                  //     backgroundColor: Colors.transparent,
-                  //     elevation: 0,
-                  //     duration: const Duration(milliseconds: 2000),
-                  //     content: customSnackBarContent(
-                  //       text: "Successfully added to StockPile",
-                  //       bgColor: Color(0xFF21bb4e),
-                  //       shapeColor: Color(0xFF09511E),
-                  //     ),
-                  //   ),
-                  // );
                 },
               ),
               const SizedBox(height: 10),
@@ -69,8 +56,8 @@ class MyHomePage extends StatelessWidget {
                       duration: const Duration(milliseconds: 2000),
                       content: customSnackBarContent(
                         text: "StockPile cleared successfully!",
-                        bgColor: Color(0xFFC72C41),
-                        shapeColor: Color(0xFF801336),
+                        bgColor: const Color(0xFFC72C41),
+                        shapeColor: const Color(0xFF801336),
                       ),
                     ),
                   );
@@ -122,7 +109,6 @@ class MyHomePage extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 130),
-                          //padding: const EdgeInsets.symmetric(horizontal: 900),
                           child: SizedBox(
                             child: Image.asset(
                               "images/here.png",
@@ -178,16 +164,7 @@ class MyHomePage extends StatelessWidget {
                                       await createAndUpdateDialog(
                                           context, "Update a Pile", pileItem);
 
-                                  if (updatedPileItem!.name == "") {
-                                    // pileItemModel.update(updatedPileItem);
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    // const SnackBar(
-                                    //   duration: Duration(milliseconds: 2000),
-                                    //   backgroundColor: Colors.red,
-                                    //   content: Text("Fill in the fields"),
-                                    // ),
-                                    // );
-                                  }
+                                  if (updatedPileItem!.name == "") {}
                                   if (updatedPileItem.name != "") {
                                     pileItemModel.update(updatedPileItem);
                                   }
@@ -207,42 +184,6 @@ class MyHomePage extends StatelessWidget {
                       );
                     });
           }),
-          // floatingActionButton:
-          //     Consumer(builder: (context, WidgetRef ref, child) {
-          //   return Row(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       FloatingActionButton(
-          //         backgroundColor: Colors.white,
-          //         onPressed: () async {
-          //           final newpileItem =
-          //               await createAndUpdateDialog(context, "Create a Pile");
-          //           //verify then update the ChangeNotifierProvider
-          //           //if item is available add it to the List
-          //     if (newpileItem != null) {
-          //       final dataModel = ref.read(stockPileProvider);
-          //       dataModel.addPile(newpileItem);
-          //     }
-          //   },
-          //   child: Image.asset(
-          //     "images/stockpile.png",
-          //     height: 30,
-          //   ),
-          // ),
-          //       const SizedBox(width: 30),
-          //       FloatingActionButton(
-          //         onPressed: () {
-          //           final dataModel = ref.read(stockPileProvider);
-          //           dataModel.clearPile();
-          //         },
-          //         child: const Icon(
-          //           Icons.delete,
-          //           size: 22,
-          //         ),
-          //       ),
-          //     ],
-          //   );
-          // }),
         ),
       );
     });
@@ -311,10 +252,8 @@ Future<StockPile?> createAndUpdateDialog(
         ),
         actions: [
           TextButton(
-            // style:                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
             child: Text(
               "Cancel",
-              // style: TextStyle(color: Color(0xFF0C2539)),
               style: GoogleFonts.raleway(
                 textStyle: const TextStyle(color: Color(0xFF0C2539)),
                 fontWeight: FontWeight.bold,
@@ -325,42 +264,52 @@ Future<StockPile?> createAndUpdateDialog(
             },
           ),
           TextButton(
-            //style:                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
             child: Text(
               "Save",
               style: GoogleFonts.raleway(
                 textStyle: const TextStyle(color: Color(0xFF0C2539)),
                 fontWeight: FontWeight.bold,
               ),
-              // style: TextStyle(color: Color(0xFF0C2539)),
             ),
             onPressed: () {
               if (name != null) {
                 if (existingPileItem != null) {
                   //have exisitng pile item
                   final newPileItem = existingPileItem.updated(name);
-
-                  SnackBar(
-                    duration: const Duration(milliseconds: 2000),
-                    content: customSnackBarContent(
-                      text: 'Updated Successfully!',
-                      bgColor: Color(0xFF21bb4e),
-                      shapeColor: Color(0xFF09511E),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      duration: const Duration(milliseconds: 2000),
+                      content: customSnackBarContent(
+                        text: 'Pile Updated Successfully!',
+                        bgColor: const Color(0xFF21bb4e),
+                        shapeColor: const Color(0xFF09511E),
+                      ),
                     ),
                   );
+
                   Navigator.of(context).pop(newPileItem);
                 } else {
                   //no existing person, create new one
                   final newPileItem = StockPile(name: name!);
-                  Navigator.of(context).pop(newPileItem);
-                  SnackBar(
-                    duration: const Duration(milliseconds: 2000),
-                    content: customSnackBarContent(
-                      text: 'Pile created and added to StockPile successfully!',
-                      bgColor: Color(0xFF21bb4e),
-                      shapeColor: Color(0xFF09511E),
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      duration: const Duration(milliseconds: 2000),
+                      content: customSnackBarContent(
+                        text:
+                            'Pile created and added to StockPile successfully!',
+                        bgColor: const Color(0xFF21bb4e),
+                        shapeColor: const Color(0xFF09511E),
+                      ),
                     ),
                   );
+                  Navigator.of(context).pop(newPileItem);
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -370,8 +319,8 @@ Future<StockPile?> createAndUpdateDialog(
                     backgroundColor: Colors.transparent,
                     content: customSnackBarContent(
                       text: 'Fill in the Fields!',
-                      bgColor: Color(0xFFC72C41),
-                      shapeColor: Color(0xFF801336),
+                      bgColor: const Color(0xFFC72C41),
+                      shapeColor: const Color(0xFF801336),
                     ),
                   ),
                 );

@@ -22,7 +22,7 @@ Widget customSnackBarContent(
               child: Text(
                 text,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
