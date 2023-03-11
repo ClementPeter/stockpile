@@ -8,7 +8,6 @@ Widget customSnackBarContent(
       Container(
         height: 50,
         padding: const EdgeInsets.all(16),
-        //margin: EdgeInsets.fromLTRB(0, 0, 0, 75),
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: const BorderRadius.all(

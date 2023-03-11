@@ -22,7 +22,7 @@
 //   }
 // }
 
-import 'dart:collection';
+
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockpile/model/stockpile.dart';
@@ -48,10 +48,10 @@ class StockPileStateNotifier extends StateNotifier {
 
   get stateList => state;
 
-  int get stateLength => state.length; //wrong
+  int get stateLength => state.length; //
 
   void addPile(StockPile pile) {
-    state = [...state, pile];
+    state = state[pile];
     //_pile.add(pile);
     //     notifyListeners();
   }
@@ -61,6 +61,7 @@ class StockPileStateNotifier extends StateNotifier {
   //     pile: state.pile.where((p) => p != pile).toList(),
   //   );
   // }
+
   //Update an existing pile
   void removePile(StockPile pile) {
     state = state.where((p) => p != pile).toList();
