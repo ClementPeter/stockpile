@@ -38,9 +38,15 @@ class StockPileStateNotifier extends StateNotifier {
   var state = [
     StockPile(name: "Get 3 packs of chocolate 🍫"),
     StockPile(name: "Get 1 packs of chocolate 🍫"),
+    StockPile(name: "Get 3 packs of chocolate 🍫"),
+    StockPile(name: "Get 1 packs of chocolate 🍫"),
+    StockPile(name: "Get 3 packs of chocolate 🍫"),
+    StockPile(name: "Get 1 packs of chocolate 🍫"),
+    StockPile(name: "Get 3 packs of chocolate 🍫"),
+    StockPile(name: "Get 1 packs of chocolate 🍫"),
   ]; //Wrong
 
-  UnmodifiableListView get stateList => state;
+  get stateList => state;
 
   int get stateLength => state.length; //wrong
 
@@ -50,16 +56,21 @@ class StockPileStateNotifier extends StateNotifier {
     //     notifyListeners();
   }
 
-  // void removePile (StockPile pile){
-  //   state = state.copyWith(cart : state.cart.where((p) => p != pile).toList(),
+  // void removePile(StockPile pile) {
+  //   state = state.copyWith(
+  //     pile: state.pile.where((p) => p != pile).toList(),
   //   );
-
   // }
-
   //Update an existing pile
   void removePile(StockPile pile) {
     state = state.where((p) => p != pile).toList();
   }
+
+  // //Update an existing pile
+
+  // void removePile(StockPile pileToRemove) {
+  //   state.removeWhere((pile) => pile == pileToRemove).toList();
+  // }
 
   //Update an existing pile
   void update(StockPile updatedPileItem) {
