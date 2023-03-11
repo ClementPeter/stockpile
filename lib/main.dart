@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           secondary: const Color(0xFF0C2539),
         ),
       ),
-       home: const MyHomePage(),
+      home: const MyHomePage(),
       //home: const AweseomSnackBarExample(),
     );
   }

@@ -33,20 +33,27 @@ class MyHomePage extends StatelessWidget {
             children: [
               FloatingActionButton(
                 child: const Icon(Icons.add, size: 22),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      duration: const Duration(milliseconds: 2000),
-                      content: customSnackBarContent(
-                        text: "Successfully added to StockPile",
-                        bgColor: Color(0xFF21bb4e),
-                        shapeColor: Color(0xFF09511E),
-                      ),
-                    ),
-                  );
+                onPressed: () async {
+                  final newPileItem =
+                      await createAndUpdateDialog(context, "Create a Pile");
+
+                  if (newPileItem != null) {
+                    final dataModel = ref.read(stockPileChangeNotifierProvider);
+                    dataModel.addPile(newPileItem);
+                  }
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     behavior: SnackBarBehavior.floating,
+                  //     backgroundColor: Colors.transparent,
+                  //     elevation: 0,
+                  //     duration: const Duration(milliseconds: 2000),
+                  //     content: customSnackBarContent(
+                  //       text: "Successfully added to StockPile",
+                  //       bgColor: Color(0xFF21bb4e),
+                  //       shapeColor: Color(0xFF09511E),
+                  //     ),
+                  //   ),
+                  // );
                 },
               ),
               const SizedBox(height: 10),
@@ -61,7 +68,7 @@ class MyHomePage extends StatelessWidget {
                       elevation: 0,
                       duration: const Duration(milliseconds: 2000),
                       content: customSnackBarContent(
-                        text: "Successfully cleared StockPile !",
+                        text: "StockPile cleared successfully!",
                         bgColor: Color(0xFFC72C41),
                         shapeColor: Color(0xFF801336),
                       ),
@@ -188,10 +195,10 @@ class MyHomePage extends StatelessWidget {
                                 child: Text(
                                   pileItem.displayName,
                                   style: GoogleFonts.raleway(
-                                    textStyle: const TextStyle(
-                                        color: Color(0xFF0C2539)),
-                                    fontSize: 19,
-                                  ),
+                                      textStyle: const TextStyle(
+                                          color: Color(0xFF0C2539)),
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ),
@@ -212,16 +219,16 @@ class MyHomePage extends StatelessWidget {
           //               await createAndUpdateDialog(context, "Create a Pile");
           //           //verify then update the ChangeNotifierProvider
           //           //if item is available add it to the List
-          //           if (newpileItem != null) {
-          //             final dataModel = ref.read(stockPileProvider);
-          //             dataModel.addPile(newpileItem);
-          //           }
-          //         },
-          //         child: Image.asset(
-          //           "images/stockpile.png",
-          //           height: 30,
-          //         ),
-          //       ),
+          //     if (newpileItem != null) {
+          //       final dataModel = ref.read(stockPileProvider);
+          //       dataModel.addPile(newpileItem);
+          //     }
+          //   },
+          //   child: Image.asset(
+          //     "images/stockpile.png",
+          //     height: 30,
+          //   ),
+          // ),
           //       const SizedBox(width: 30),
           //       FloatingActionButton(
           //         onPressed: () {
@@ -283,6 +290,10 @@ Future<StockPile?> createAndUpdateDialog(
           controller: pileController,
           cursorColor: const Color(0xFF0C2539),
           autofocus: true,
+          style: GoogleFonts.raleway(
+            textStyle: const TextStyle(color: Color(0xFF0C2539)),
+            fontWeight: FontWeight.bold,
+          ),
           decoration: InputDecoration(
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xFF0C2539)),
@@ -300,22 +311,28 @@ Future<StockPile?> createAndUpdateDialog(
         ),
         actions: [
           TextButton(
-            style:
-                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
-            child: const Text(
+            // style:                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
+            child: Text(
               "Cancel",
-              style: TextStyle(color: Color(0xFF0C2539)),
+              // style: TextStyle(color: Color(0xFF0C2539)),
+              style: GoogleFonts.raleway(
+                textStyle: const TextStyle(color: Color(0xFF0C2539)),
+                fontWeight: FontWeight.bold,
+              ),
             ),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            style:
-                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
-            child: const Text(
+            //style:                TextButton.styleFrom(foregroundColor: const Color(0xFF0C2539)),
+            child: Text(
               "Save",
-              style: TextStyle(color: Color(0xFF0C2539)),
+              style: GoogleFonts.raleway(
+                textStyle: const TextStyle(color: Color(0xFF0C2539)),
+                fontWeight: FontWeight.bold,
+              ),
+              // style: TextStyle(color: Color(0xFF0C2539)),
             ),
             onPressed: () {
               if (name != null) {
@@ -336,6 +353,14 @@ Future<StockPile?> createAndUpdateDialog(
                   //no existing person, create new one
                   final newPileItem = StockPile(name: name!);
                   Navigator.of(context).pop(newPileItem);
+                  SnackBar(
+                    duration: const Duration(milliseconds: 2000),
+                    content: customSnackBarContent(
+                      text: 'Pile created and added to StockPile successfully!',
+                      bgColor: Color(0xFF21bb4e),
+                      shapeColor: Color(0xFF09511E),
+                    ),
+                  );
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -486,11 +511,11 @@ Future<StockPile?> createAndUpdateDialog(
 //             backgroundColor: const Color(0XFFFCFAFF),
 //             title: Text(
 //               "StockPile",
-//               style: GoogleFonts.raleway(
-//                 textStyle: const TextStyle(color: Color(0xFF0C2539)),
-//                 fontWeight: FontWeight.bold,
-//                 fontSize: 24,
-//               ),
+              // style: GoogleFonts.raleway(
+              //   textStyle: const TextStyle(color: Color(0xFF0C2539)),
+              //   fontWeight: FontWeight.bold,
+              //   fontSize: 24,
+              // ),
 //             ),
 //           ),
 //           body: Consumer(builder: (context, ref, child) {
