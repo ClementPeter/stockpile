@@ -5,7 +5,7 @@ import 'package:stockpile/model/stockpile.dart';
 
 //Create Provider to pass StockPileNotifier to our App
 final stockPileChangeNotifierProvider =
-    ChangeNotifierProvider<StockPileNotifier>((ref) {
+    Provider<StockPileNotifier>((ref) {
   return StockPileNotifier();
 });
 

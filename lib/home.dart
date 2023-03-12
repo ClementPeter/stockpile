@@ -372,6 +372,12 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, WidgetRef ref, child) {
+      // final stockPileProvider = Provider((ref) {
+      //   return stockPileStateNotifierProvider;
+      // });
+
+      //if i keep it here the FAB doesnt see it
+      final pileItem = ref.watch(stockPileStateNotifierProvider);
       return CustomFloatingActionButton(
         spaceFromRight: 40,
         spaceFromBottom: 80,
@@ -394,11 +400,25 @@ class MyHomePage extends StatelessWidget {
               FloatingActionButton(
                 onPressed: () {
                   //accessing stateNotifer fucntion using .read &.notifier modifiers
+
                   //  final dataModel = ref.read(stockPileStateNotifierProvider.notifier);
                   //  dataModel!.clearPile();
-                  ref
-                      .watch(stockPileStateNotifierProvider.notifier)
-                      .clearPile();
+
+                  //  final stockPileStateNotifier = ref.watch(   stockPileStateNotifierProvider); //To clear the data in the state ; we listen to the provider
+
+                  // ref.read(stockPileStateNotifier.notifier).clearPile(); //Not working cos we are accesing it indirectly
+
+                  //final clearStuff = pileItem. //By keeping it above it Cant access it
+
+                  final clearStuff =
+                      ref.read(stockPileStateNotifierProvider.notifier);
+
+                  clearStuff.clearPile();
+
+                  //clearStuff.stateLength; //clear the content in the state
+                  print(
+                      "::::::::::::::${clearStuff.stateLength}::::::::::::::::::::");
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       behavior: SnackBarBehavior.floating,
@@ -421,6 +441,12 @@ class MyHomePage extends StatelessWidget {
                 onPressed: () async {
                   final newItemPile =
                       await createAndUpdateDialog(context, "Create a Pile");
+
+                  final clearStuff =
+                      ref.read(stockPileStateNotifierProvider.notifier);
+
+                  print(
+                      "::::::::::::::${clearStuff.stateLength}::::::::::::::::::::");
 
                   if (newItemPile != null) {
                     ref
