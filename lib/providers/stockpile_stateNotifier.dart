@@ -1,60 +1,177 @@
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:stockpile/model/stockpile.dart';
+
+// //METHOD 1 - PERFORMING CRUD OPERATION WITH STATENOTIFIER
+// final stockPileStateNotifierProvider =
+//     StateNotifierProvider<StockPileStateNotifier, Object?>((ref) {
+//   //We keep our state dynamic to take an empty List so data can be added to it ;; hence it can be mutable
+//   return StockPileStateNotifier([]);
+// });
+
+// //the "super" keyword must be stated cos it is through it we pass data into our state
+// //he "state" is basically any object hence it accepts list,map etc
+
+// class StockPileStateNotifier extends StateNotifier {
+//   StockPileStateNotifier(
+//       super.state); //make our state overriddeable - ask chatgpt
+
+//   //getting data over out of our state
+//   get stateList => state;
+
+//   //get the number of the data in our state
+//   int get stateLength => state.length;
+
+//   //Add to data to our state
+//   void addPile(StockPile pile) {
+//     // using spread operator to add the existing data and pass in new one to the state
+//     state = [...state, pile];
+//     // print("::::::::::::::${state.stateLength}::::::::::::::::::::");
+//   }
+
+// //Remove an existing pile
+// void removePile(StockPile pileToRemove) {
+//   // print("::::::::::::::${pileToRemove.name}::::::::::::::::::::");
+//   state = state.where((pile) => pile != pileToRemove).toList();
+// }
+
+// //Update an existing pile
+// void update(StockPile updatedPileItem) {
+//   //to make an update ; we check if the item already exist in our [state] and get the index
+//   final index = state.indexOf(updatedPileItem);
+
+//   //if it exist we get the actual data by accesing the state index
+//   final oldPileItem = state[index];
+
+//   if (oldPileItem.name != updatedPileItem.name) {
+//     //if it's not equal ; meaning they are different,thus update the value
+//     state[index] = oldPileItem.updated(updatedPileItem.name);
+//     // state[index] = oldPileItem.copyWith(name: updatedPileItem.name);
+//   }
+// }
+
+//   //clear pile ; By setting our state to be empty
+//   void clearPile() {
+//     state = [];
+//   }
+// }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockpile/model/stockpile.dart';
 
-//METHOD 1 - PERFORMING CRUD OPERATION WITH STATENOTIFIER
+//METHOD 2 - PERFORMING CRUD OPERATION WITH STATENOTIFIER
+
 final stockPileStateNotifierProvider =
-    StateNotifierProvider<StockPileStateNotifier, Object?>((ref) {
-  //Allow our state to take an empty List so data can be added to it ;; hence it can be mutable
-  return StockPileStateNotifier([]);
+    StateNotifierProvider<StockPileStateNotifier, List<StockPile>>((ref) {
+  return StockPileStateNotifier();
 });
-
-// final stockPileStateNotifierProvider =
-//     StateNotifierProvider<StockPileStateNotifier, Object?>((ref) {
-//   return StockPileStateNotifier([]); //works cos we keep our state dynamic 
-
-//  // return StockPileStateNotifier();
-// });
 
 //the "super" keyword is how we pass data into our state
 //he "state" is basically any object hence it accepts list,map etc
 
-class StockPileStateNotifier extends StateNotifier {
+class StockPileStateNotifier extends StateNotifier<List<StockPile>> {
+  //we set our state to be an empty list of which we would add value too
+  StockPileStateNotifier() : super([]);
 
+  //Getter arent recommended in Stateotifier
+  //get stateList => state;
 
-  StockPileStateNotifier(super.state); //make our state overriddeable - ask chatgpt
-
-  //To make the data in the state modifiable; override the state
-
-  // @override
-  // var state = [
-  // StockPile(name: "Get 3 packs of chocolate 🍫"),
-  // StockPile(name: "Get 1 packs of chocolate 🍫"),
-  //   StockPile(name: "Get 3 packs of chocolate 🍫"),
-  //   StockPile(name: "Get 1 packs of chocolate 🍫"),
-  // ]; //
-
-  get stateList => state;
-
-  int get stateLength => state.length; //
+  //int get stateLength = state.length; //
 
   void addPile(StockPile pile) {
     state = [...state, pile];
-
-    print("::::::::::::::${state.stateLength}::::::::::::::::::::");
-    //_pile.add(pile);
-    //     notifyListeners();
+    print(":::::::ADD PILE:::::::${state.length}::::::::::::::::::::");
   }
 
-  // void removePile(StockPile pile) {
-  //   state = state.copyWith(
-  //     pile: state.pile.where((p) => p != pile).toList(),
-  //   );
+// //WORKING FINE
+// It modifies the variable "state", which presumably contains a list of stockpiles.
+// It creates a new list using a "list comprehension" which loops through each stockpile in the existing "state" list and adds all the stockpiles that are not equal to the one passed as the parameter.
+// Finally, it assigns the new list to the "state" variable.
+  void removePile(StockPile piletoRemove) {
+    //Since our state is immutable...we will make a new list
+    //instead of changing the existing list
+    state = [
+      for (final pile in state)
+        if (pile != piletoRemove) pile,
+    ];
+  }
+
+//WORKS FINE TOO
+//It modifies the variable "state", which presumably contains a list of stockpiles.
+//It uses the "where" function to create a new list that only contains the stockpiles that are not equal to the one passed as the parameter.
+//It converts the new list into a regular list using "toList()" method.
+
+  // void removePile(StockPile piletoRemove) {
+  //   state = state.where((pile) => pile != piletoRemove).toList();
   // }
 
   //Update an existing pile
-  void removePile(StockPile pile) {
-    state = state.where((p) => p != pile).toList();
+  update(StockPile updatedPileItem) {
+    //to make an update ; we check if the item already exist in our [state] and get the index
+    final index = state.indexOf(updatedPileItem);
+
+    //if it exist we get the actual data by accesing the state index
+    final oldPileItem = state[index];
+
+    if (oldPileItem.name != updatedPileItem.name) {
+      //if it's not equal ; meaning they are different,thus update the value
+      //state[index] = oldPileItem.updated(updatedPileItem.name) ;
+
+      //i feel the error comes from the way im passing it
+      //this add a new item to the state instead of updating it
+      // state = [...state, oldPileItem.copyWith(name: updatedPileItem.name)];
+
+      //works but update the selected value but clears the previous data in the state
+      state = [oldPileItem.copyWith(name: updatedPileItem.name)];
+
+      //jargons
+      // state = state.contains((element) => element.name == oldPileItem.updated(updatedPileItem.name) );
+    }
   }
+
+  ////Update an existing pile
+  // void update(StockPile updatedPileItem) {
+  //   //to make an update ; we check if the item already exist in our [state] and get the index
+  //   final index = state.indexOf(updatedPileItem);
+
+  //   //if it exist we get the actual data by accesing the state index
+  //   final oldPileItem = state[index];
+
+  //   if (oldPileItem.name != updatedPileItem.name) {
+  //     //if it's not equal ; meaning they are different,thus update the value
+  //     state[index] = oldPileItem.updated(updatedPileItem.name);
+  //     // state[index] = oldPileItem.copyWith(name: updatedPileItem.name);
+  //   }
+  // }
 
   // //Update an existing pile
 
@@ -62,151 +179,47 @@ class StockPileStateNotifier extends StateNotifier {
   //   state.removeWhere((pile) => pile == pileToRemove).toList();
   // }
 
-  //Update an existing pile
-  void update(StockPile updatedPileItem) {
-    final index = state.indexOf(updatedPileItem);
+  // //Update an existing pile
+  // void update(StockPile updatedPileItem) {
+  //   final index = state.indexOf(updatedPileItem);
 
-    final oldPileItem = state[index];
+  //   // print("::::::updated item index::::::::${index}::::::::::::::::::::");
 
-    if (oldPileItem.name != updatedPileItem.name) {
-      //if it's not equal ; meaning they are different , thus update the value
-      // state[index] = oldPileItem.updated(updatedPileItem.name);
-      state[index] = oldPileItem.copyWith(name: updatedPileItem.name);
-    }
-  }
+  //   final oldPileItem = state[index];
+
+  //   if (oldPileItem.name != updatedPileItem.name) {
+  //     print(
+  //         "::::::old item name::::::::${oldPileItem.name}::::::::::::::::::::");
+
+  //     // print(          "::::::updated item ::::::::${updatedPileItem.name}::::::::::::::::::::");
+  //     //if it's not equal ; meaning they are different , thus update the value
+  //     final newlyUpdatedItem = oldPileItem.updated(updatedPileItem.name);
+
+  //     print(
+  //         "::::::updated item name ::::::::${newlyUpdatedItem.name}::::::::::::::::::::");
+
+  //     // state[newlyUpdatedItem];
+  //     // state.update[newlyUpdatedItem];
+  //     //add to the updated item to the state
+  //     //state = [newlyUpdatedItem];
+
+  //     //  state = state[newlyUpdatedItem];
+
+  //     //  state[] = newlyUpdatedItem;
+
+  //     //  state = state.index[newlyUpdatedItem];
+
+  //     state = state.replace(newlyUpdatedItem);
+
+  //     // print("::::::new::::::::${newlyUpdatedItem}::::::::::::::::::::");
+  //     // print(state);
+
+  //     // state[index] = oldPileItem.updated(name: updatedPileItem.name);
+
+  //   }
+  // }
 
   void clearPile() {
     state = [];
   }
 }
-
-// For example, " @XclusiveCyborg " explanation
-// Look at state notifier as Master and apprenticeship , the master influences the apprentice through instructions.
-
-// As the name implies State-Notifier
-
-// There is a state - (this holds all of the properties that are subject to change which you can pass to your UI)
-
-// And there’s Notifier - ( this holds all the methods that influences how your state changes).
-
-// Your statenotifier here is a StateNotifier that holds a List<Product>
-
-// What this means is that, the only thing that your State can provide is a list of type product nothing more. Just like a Dominos is known for producing pizzas.
-
-// So the method addProduct in your notifier class basically helps you add product into your state which holds a List<Product>.
-
-// So assume Product is pizza. The addProduct method for example everytime you call it helps you add one box of pizza to the List of pizza in your state.
-
-// So if you have been showing a List of pizza in your UI let’s say Pizza 1-10, everytime you add a pizza,it increases by 1 and the changes reflect in your UI.
-
-/* */
-/// And also the .family modifier isn’t for future provider alone.
-
-// The simple use case is if you want to pass a variable into your State,Future,Stream provider, you can use the .family modifier.
-
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:stockpile/model/stockpile.dart';
-
-// //METHOD 2 - PERFORMING CRUD OPERATION WITH STATENOTIFIER
-
-// final stockPileStateNotifierProvider =
-//     StateNotifierProvider<StockPileStateNotifier, Object?>((ref) {
-//   return StockPileStateNotifier({});
-// });
-
-// // final stockPileStateNotifierProvider =
-// //     StateNotifierProvider<StockPileStateNotifier, Object?>((ref) {
-// //   return StockPileStateNotifier([]); //works cos we keep our state dynamic ; hence it can be mutable
-
-// //  // return StockPileStateNotifier();
-// // });
-
-// //the "super" keyword is how we pass data into our state
-// //he "state" is basically any object hence it accepts list,map etc
-
-// class StockPileStateNotifier extends StateNotifier {
-//   //we set our state to be an empty list of which we would add value too
-//   // StockPileStateNotifier() : super([]);
-
-//   StockPileStateNotifier(super.state); //make our state overriddeable
-
-//   //To make the data in the state modifiable; override the state
-
-//   // @override
-//   // var state = [
-//   //   StockPile(name: "Get 3 packs of chocolate 🍫"),
-//   //   StockPile(name: "Get 1 packs of chocolate 🍫"),
-//   //   StockPile(name: "Get 3 packs of chocolate 🍫"),
-//   //   StockPile(name: "Get 1 packs of chocolate 🍫"),
-//   // ]; //
-
-//   get stateList => state;
-
-//   int get stateLength => state.length; //
-
-//   void addPile(StockPile pile) {
-//     state = [...state, pile];
-
-//     print("::::::::::::::${state.stateLength}::::::::::::::::::::");
-//     //_pile.add(pile);
-//     //     notifyListeners();
-//   }
-
-//   // void removePile(StockPile pile) {
-//   //   state = state.copyWith(
-//   //     pile: state.pile.where((p) => p != pile).toList(),
-//   //   );
-//   // }
-
-//   //Update an existing pile
-//   void removePile(StockPile pile) {
-//     state = state.where((p) => p != pile).toList();
-//   }
-
-//   // //Update an existing pile
-
-//   // void removePile(StockPile pileToRemove) {
-//   //   state.removeWhere((pile) => pile == pileToRemove).toList();
-//   // }
-
-//   //Update an existing pile
-//   void update(StockPile updatedPileItem) {
-//     final index = state.indexOf(updatedPileItem);
-
-//     final oldPileItem = state[index];
-
-//     if (oldPileItem.name != updatedPileItem.name) {
-//       //if it's not equal ; meaning they are different , thus update the value
-//       // state[index] = oldPileItem.updated(updatedPileItem.name);
-//       state[index] = oldPileItem.copyWith(name: updatedPileItem.name);
-//     }
-//   }
-
-//   void clearPile() {
-//     state = [];
-//   }
-// }
-
-// // For example, " @XclusiveCyborg " explanation
-// // Look at state notifier as Master and apprenticeship , the master influences the apprentice through instructions.
-
-// // As the name implies State-Notifier
-
-// // There is a state - (this holds all of the properties that are subject to change which you can pass to your UI)
-
-// // And there’s Notifier - ( this holds all the methods that influences how your state changes).
-
-// // Your statenotifier here is a StateNotifier that holds a List<Product>
-
-// // What this means is that, the only thing that your State can provide is a list of type product nothing more. Just like a Dominos is known for producing pizzas.
-
-// // So the method addProduct in your notifier class basically helps you add product into your state which holds a List<Product>.
-
-// // So assume Product is pizza. The addProduct method for example everytime you call it helps you add one box of pizza to the List of pizza in your state.
-
-// // So if you have been showing a List of pizza in your UI let’s say Pizza 1-10, everytime you add a pizza,it increases by 1 and the changes reflect in your UI.
-
-// /* */
-// /// And also the .family modifier isn’t for future provider alone.
-
-// // The simple use case is if you want to pass a variable into your State,Future,Stream provider, you can use the .family modifier.

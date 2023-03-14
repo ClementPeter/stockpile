@@ -53,7 +53,7 @@
 //                       behavior: SnackBarBehavior.floating,
 //                       backgroundColor: Colors.transparent,
 //                       elevation: 0,
-//                       duration: const Duration(milliseconds: 2000),
+//                       duration: const Duration(milliseconds: 1200),
 // content: customSnackBarContent(
 //   text: "StockPile cleared successfully!",
 //   bgColor: const Color(0xFFC72C41),
@@ -281,7 +281,7 @@
 //                       behavior: SnackBarBehavior.floating,
 //                       backgroundColor: Colors.transparent,
 //                       elevation: 0,
-//                       duration: const Duration(milliseconds: 2000),
+//                       duration: const Duration(milliseconds: 1200),
 // content: customSnackBarContent(
 //   text: 'Pile Updated Successfully!',
 //   bgColor: const Color(0xFF21bb4e),
@@ -300,7 +300,7 @@
 //                       behavior: SnackBarBehavior.floating,
 //                       backgroundColor: Colors.transparent,
 //                       elevation: 0,
-//                       duration: const Duration(milliseconds: 2000),
+//                       duration: const Duration(milliseconds: 1200),
 //                       content: customSnackBarContent(
 //                         text:
 //                             'Pile created and added to StockPile successfully!',
@@ -315,7 +315,7 @@
 //                 ScaffoldMessenger.of(context).showSnackBar(
 //                   SnackBar(
 //                     elevation: 0,
-//                     duration: const Duration(milliseconds: 2000),
+//                     duration: const Duration(milliseconds: 1200),
 //                     backgroundColor: Colors.transparent,
 // content: customSnackBarContent(
 //   text: 'Fill in the Fields!',
@@ -411,13 +411,13 @@ class MyHomePage extends StatelessWidget {
                   //final clearStuff = pileItem. //By keeping it above it Cant access it
 
                   final clearStuff =
-                      ref.read(stockPileStateNotifierProvider.notifier);
+                      ref.watch(stockPileStateNotifierProvider.notifier);
 
                   clearStuff.clearPile();
 
                   //clearStuff.stateLength; //clear the content in the state
                   print(
-                      "::::::::::::::${clearStuff.stateLength}::::::::::::::::::::");
+                      ":::::::DELETE:::::::${clearStuff.state.length}::::::::::::::::::::");
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -446,7 +446,7 @@ class MyHomePage extends StatelessWidget {
                       ref.read(stockPileStateNotifierProvider.notifier);
 
                   print(
-                      "::::::::::::::${clearStuff.stateLength}::::::::::::::::::::");
+                      ":::::ADD:::::::::${clearStuff.state.length}::::::::::::::::::::");
 
                   if (newItemPile != null) {
                     ref
@@ -476,7 +476,7 @@ class MyHomePage extends StatelessWidget {
           body: Consumer(builder: (context, ref, child) {
             final pileItemModel =
                 ref.watch(stockPileStateNotifierProvider.notifier);
-            return pileItemModel.stateLength == 0
+            return pileItemModel.state.length == 0
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -513,9 +513,9 @@ class MyHomePage extends StatelessWidget {
                     ],
                   )
                 : ListView.builder(
-                    itemCount: pileItemModel.stateLength,
+                    itemCount: pileItemModel.state.length,
                     itemBuilder: (context, index) {
-                      final pileItem = pileItemModel.stateList[index];
+                      final pileItem = pileItemModel.state[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),
@@ -523,6 +523,8 @@ class MyHomePage extends StatelessWidget {
                           key: Key(pileItem.name),
                           direction: DismissDirection.endToStart,
                           onDismissed: (direction) {
+                            print(
+                                ":::::DISMISSIBLE STATE COUNT:::::${pileItemModel.state.length}::::::::::");
                             pileItemModel.removePile(pileItem);
                             //pileItemModel.clearPile();
                           },
@@ -540,7 +542,7 @@ class MyHomePage extends StatelessWidget {
                                   color: Color(0xB70C2539),
                                   //size: 36.0,
                                 ),
-                              ],
+                              ], 
                             ),
                           ),
                           child: ListTile(
@@ -673,7 +675,7 @@ Future<StockPile?> createAndUpdateDialog(
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: Colors.transparent,
                       elevation: 0,
-                      duration: const Duration(milliseconds: 2000),
+                      duration: const Duration(milliseconds: 1200),
                       content: customSnackBarContent(
                         text: 'Pile Updated Successfully!',
                         bgColor: const Color(0xFF21bb4e),
@@ -692,7 +694,7 @@ Future<StockPile?> createAndUpdateDialog(
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: Colors.transparent,
                       elevation: 0,
-                      duration: const Duration(milliseconds: 2000),
+                      duration: const Duration(milliseconds: 1200),
                       content: customSnackBarContent(
                         text:
                             'Pile created and added to StockPile successfully!',
@@ -707,7 +709,7 @@ Future<StockPile?> createAndUpdateDialog(
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     elevation: 0,
-                    duration: const Duration(milliseconds: 2000),
+                    duration: const Duration(milliseconds: 1200),
                     backgroundColor: Colors.transparent,
                     content: customSnackBarContent(
                       text: 'Fill in the Fields!',
