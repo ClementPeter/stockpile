@@ -40,7 +40,7 @@ class StockPileNotifier extends ChangeNotifier {
     //check if the updatedPile already exist in the _pile index
     final index = _pile.indexOf(updatedPileItem);
 
-    final oldPileItem = _pile[index];
+    final oldPileItem = _pile[index]; //get the old pile item to compare
 
     if (oldPileItem.name != updatedPileItem.name) {
       //if it's not equal ; meaning they are different , thus update the value
@@ -51,7 +51,7 @@ class StockPileNotifier extends ChangeNotifier {
   //clear data from the _pile list
   void clearPile() {
     //print(":::::::::::::::::::BEFORE CLEAR PILE::::::::::::::::::::::::");
-    print(_pile);
+    // print(_pile);
     _pile.clear();
     // print(":::::::::::::::::::CLEAR PILE::::::::::::::::::::::::");
     // print(_pile);
