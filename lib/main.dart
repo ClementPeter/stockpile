@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockpile/home.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stockpile/splash.dart';
 
 void main() {
   runApp(
@@ -22,8 +23,7 @@ class MyApp extends StatelessWidget {
         snackBarTheme: SnackBarThemeData(
           contentTextStyle: GoogleFonts.raleway(
             textStyle: const TextStyle(color: Colors.white),
-            fontWeight: FontWeight.w500,
-            //fontSize: 20,
+            fontWeight: FontWeight.w500,            
           ),
         ),
         textSelectionTheme: const TextSelectionThemeData(
@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
           secondary: const Color(0xFF0C2539),
         ),
       ),
-      home: const MyHomePage(),      
+      //home: const MyHomePage(),
+      home:  SplashScreen()  
     );
   }
 }

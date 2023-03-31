@@ -414,7 +414,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, WidgetRef ref, child) {
-      //Access the state of the stateNotifier and rebuild the widget when the state changes
+      //Access the state of the stateNotifier
       List<StockPile> stockpile = ref.watch(stockPileStateNotifierProvider);
       return CustomFloatingActionButton(
         spaceFromRight: 40,
@@ -486,120 +486,112 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           body: Center(
-            child:
-                // final pileItemModel =  ref.watch(stockPileStateNotifierProvider.notifier);
-                // return pileItemModel.state.isEmpty
-                stockpile.isEmpty
-                    ? Column(
+            child: stockpile.isEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          //Text Watermarked page when there is no item on the (ChangeNotifierprovider) List
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Text(
-                                  "Add a Pile to your StockPile",
-                                  style: GoogleFonts.raleway(
-                                    textStyle: const TextStyle(
-                                        color: Color(0x690C2539)),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 130),
-                              child: SizedBox(
-                                child: Image.asset(
-                                  "images/here.png",
-                                  height: 200,
-                                ),
+                          Center(
+                            child: Text(
+                              "Add a Pile to your StockPile",
+                              style: GoogleFonts.raleway(
+                                textStyle:
+                                    const TextStyle(color: Color(0x690C2539)),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
                               ),
                             ),
                           ),
                         ],
-                      )
-                    : ListView.builder(
-                        // itemCount: pileItemModel.state.length,
-                        itemCount: stockpile.length,
-                        itemBuilder: (context, index) {
-                          final pileItem = stockpile[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Dismissible(
-                              key: Key(pileItem.name),
-                              direction: DismissDirection.endToStart,
-                              onDismissed: (direction) {
-                                // print( ":::DISMISSIBLE STATE COUNT::::${stockpile.length}:::::");
-                                stockpile.remove(pileItem);
-                                setState(() {
-                                  if (stockpile.isEmpty) {
-                                    stockpile.clear();
-                                  }
-                                });
-                              },
-                              background: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFFFE6E6),
-                                  borderRadius: BorderRadius.circular(10),
+                      ),
+                      const SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 130),
+                          child: SizedBox(
+                            child: Image.asset(
+                              "images/here.png",
+                              height: 200,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : ListView.builder(
+                    itemCount: stockpile.length,
+                    itemBuilder: (context, index) {
+                      final pileItem = stockpile[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        child: Dismissible(
+                          key: Key(pileItem.name),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {
+                            stockpile.remove(pileItem);
+                            setState(() {
+                              if (stockpile.isEmpty) {
+                                stockpile.clear();
+                              }
+                            });
+                          },
+                          background: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFE6E6),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: const [
+                                Spacer(),
+                                Icon(
+                                  Icons.delete_outline,
+                                  color: Color(0xB70C2539),
                                 ),
-                                child: Row(
-                                  children: const [
-                                    Spacer(),
-                                    Icon(
-                                      Icons.delete_outline,
-                                      color: Color(0xB70C2539),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                tileColor: const Color(0x2C0D2E68),
-                                title: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      final updatedPileItem =
-                                          await createAndUpdateDialog(context,
-                                              "Update a Pile", pileItem);
+                              ],
+                            ),
+                          ),
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            tileColor: const Color(0x2C0D2E68),
+                            title: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  final updatedPileItem =
+                                      await createAndUpdateDialog(
+                                          context, "Update a Pile", pileItem);
 
-                                      if (updatedPileItem!.name.isNotEmpty) {
-                                        // pileItemModel.update(updatedPileItem);
-                                        //updates the selected stockpile
-                                        setState(() {
-                                          stockpile[index] = updatedPileItem;
-                                        });
-                                      }
-                                    },
-                                    child: Text(
-                                      pileItem.displayName,
-                                      style: GoogleFonts.raleway(
-                                        textStyle: const TextStyle(
-                                          color: Color(0xFF0C2539),
-                                        ),
-                                        fontSize: 19,
-                                      ),
+                                  if (updatedPileItem!.name.isNotEmpty) {
+                                    //updates the selected stockpile
+                                    setState(() {
+                                      stockpile[index] = updatedPileItem;
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  pileItem.displayName,
+                                  style: GoogleFonts.raleway(
+                                    textStyle: const TextStyle(
+                                      color: Color(0xFF0C2539),
                                     ),
+                                    fontSize: 19,
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ),
       );
@@ -613,7 +605,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 final pileController = TextEditingController();
 
-Future<StockPile?> createAndUpdateDialog(
+// Future<StockPile?> createAndUpdateDialog(
+createAndUpdateDialog(
   BuildContext context,
   String? title, [
   StockPile? existingPileItem,
