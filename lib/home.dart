@@ -414,7 +414,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, WidgetRef ref, child) {
-      //Access the state of the stateNotifier
+      //Access the state of the stateNotifier and rebuild the widget when the state changes
       List<StockPile> stockpile = ref.watch(stockPileStateNotifierProvider);
       return CustomFloatingActionButton(
         spaceFromRight: 40,
