@@ -77,8 +77,8 @@ class _CustomFloatingActionButtonState
     Offset position = box.localToGlobal(Offset.zero); //this is global position
     double y = position.dy;
     double x = position.dx;
-    print(x);
-    print(y);
+    //print(x);
+    //print(y);
   }
 
   @override

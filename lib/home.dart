@@ -123,7 +123,7 @@
 //                       ],
 //                     )
 //                   : ListView.builder(
-//                       itemCount: pileItemModel.pileItemAmount,
+//                       itemCount: pileItemModel.pileAmount,
 //                       itemBuilder: (context, index) {
 //                         final pileItem = pileItemModel.pile[index];
 //                         return Padding(
@@ -134,7 +134,7 @@
 //                             direction: DismissDirection.endToStart,
 //                             onDismissed: (direction) {
 //                               pileItemModel.removePile(pileItem);
-//                               //print(pileItemModel.pileItemAmount);
+//                               //print(pileItemModel.pileAmount);
 //                             },
 //                             background: Container(
 //                               padding:

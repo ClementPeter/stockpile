@@ -29,13 +29,13 @@ class MyApp extends StatelessWidget {
         textSelectionTheme: const TextSelectionThemeData(
           selectionHandleColor: Color(0xFF0C2539),
         ),
-        indicatorColor: Color(0xFF0C2539),
+        indicatorColor: const Color(0xFF0C2539),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           secondary: const Color(0xFF0C2539),
         ),
       ),
       //home: const MyHomePage(),
-      home:  SplashScreen()  
+      home:  const SplashScreen()  
     );
   }
 }

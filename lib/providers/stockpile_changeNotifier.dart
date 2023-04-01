@@ -18,7 +18,7 @@ class StockPileNotifier extends ChangeNotifier {
     // StockPile(name: "Get 3 packs of chocolate 🍫"),
   ];
   //Getter to get list of the _pile
-  int get pileItemAmount => _pile.length;
+  int get pileAmount => _pile.length;
 
   //Getter to get length of the _pile
   UnmodifiableListView<StockPile> get pile => UnmodifiableListView(_pile);
