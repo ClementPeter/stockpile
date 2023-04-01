@@ -36,7 +36,7 @@ class StockPileNotifier extends ChangeNotifier {
   }
 
   //Update an existing pile
-  void update(StockPile updatedPileItem) {
+  void updatePile(StockPile updatedPileItem) {
     //check if the updatedPile already exist in the _pile index
     final index = _pile.indexOf(updatedPileItem);
 
