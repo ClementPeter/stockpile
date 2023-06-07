@@ -484,6 +484,73 @@ class _MyHomePageState extends State<MyHomePage> {
                 fontSize: 24,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  //show pop up menu icon
+                  showMenu(
+                    context: context,
+                    position: const RelativeRect.fromLTRB(100, 80, 0, 0),
+                    items: [
+                      PopupMenuItem(
+                          child: TextButton(
+                        onPressed: () {
+                          print("::::::change theme:::::::");
+                        },
+                        child: const Row(
+                          children: [
+                            Text(
+                              "Theme",
+                              style: TextStyle(
+                                color: Color(0xFF0C2539),
+                                fontSize: 18,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Icon(Icons.dark_mode_outlined),
+                          ],
+                        ),
+                      )),
+                      PopupMenuItem(
+                        child: TextButton(
+                          child: const Text(
+                            "About",
+                            style: TextStyle(
+                              color: Color(0xFF0C2539),
+                              fontSize: 18,
+                            ),
+                          ),
+                          onPressed: () {
+                            //Navigator.of(context).pop();
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("About StockPile"),
+                                    content: const Text(
+                                      "StockPile is a simple app that helps you keep track of your items in a pile. You can add, edit and delete items in your pile. You can also clear your pile.",
+                                      textAlign: TextAlign.justify,
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("OK"),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                icon: const Icon(Icons.more_vert),
+                color: const Color(0xFF0C2539),
+              ),
+            ],
           ),
           body: Center(
             child: stockpile.isEmpty
@@ -545,8 +612,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: const Color(0xFFFFE6E6),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Row(
-                              children: const [
+                            child: const Row(
+                              children: [
                                 Spacer(),
                                 Icon(
                                   Icons.delete_outline,
