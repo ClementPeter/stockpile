@@ -490,35 +490,77 @@ class _MyHomePageState extends State<MyHomePage> {
                   //show pop up menu icon
                   showMenu(
                     context: context,
-                    position: const RelativeRect.fromLTRB(100, 80, 0, 0),
+                    position: const RelativeRect.fromLTRB(10, 80, 0, 0),
                     items: [
                       PopupMenuItem(
-                          child: TextButton(
-                        onPressed: () {
-                          print("::::::change theme:::::::");
-                        },
-                        child: const Row(
-                          children: [
-                            Text(
-                              "Theme",
-                              style: TextStyle(
-                                color: Color(0xFF0C2539),
-                                fontSize: 18,
+                        child: TextButton(
+                          onPressed: () {
+                            print("::::::Favourite Pile:::::::");
+                          },
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Favourite",
+                                style: TextStyle(
+                                  color: Color(0xFF0C2539),
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 5),
-                            Icon(Icons.dark_mode_outlined),
-                          ],
+                              // SizedBox(width: 5),
+                              Icon(
+                                Icons.favorite_outline_sharp,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
                         ),
-                      )),
+                      ),
                       PopupMenuItem(
                         child: TextButton(
-                          child: const Text(
-                            "About",
-                            style: TextStyle(
-                              color: Color(0xFF0C2539),
-                              fontSize: 18,
-                            ),
+                          onPressed: () {
+                            print("::::::change theme:::::::");
+                          },
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Theme",
+                                style: TextStyle(
+                                  color: Color(0xFF0C2539),
+                                  fontSize: 18,
+                                ),
+                              ),
+                              // SizedBox(width: 5),
+                              Icon(
+                                Icons.dark_mode_outlined,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: TextButton(
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "About",
+                                style: TextStyle(
+                                  color: Color(0xFF0C2539),
+                                  fontSize: 18,
+                                ),
+                                // style: TextButton.styleFrom(
+
+                                // )
+                              ),
+                              SizedBox(width: 10),
+                              // Icon(
+                              //   Icons.dark_mode_outlined,
+                              //   color: Colors.black,
+                              // ),
+                            ],
                           ),
                           onPressed: () {
                             //Navigator.of(context).pop();
@@ -526,17 +568,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: const Text("About StockPile"),
-                                    content: const Text(
+                                    title: Text(
+                                      "About StockPile",
+                                      style: GoogleFonts.raleway(
+                                        textStyle: const TextStyle(
+                                          color: Color(0xFF0C2539),
+                                        ),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    content: Text(
                                       "StockPile is a simple app that helps you keep track of your items in a pile. You can add, edit and delete items in your pile. You can also clear your pile.",
                                       textAlign: TextAlign.justify,
+                                      style: GoogleFonts.raleway(
+                                        textStyle: const TextStyle(
+                                          color: Color(0xFF0C2539),
+                                        ),
+                                        //fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: const Text("OK"),
+                                        child: Text(
+                                          "OK",
+                                          style: GoogleFonts.raleway(
+                                            textStyle: const TextStyle(
+                                              color: Color(0xFF0C2539),
+                                            ),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   );
@@ -588,6 +652,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   )
+                //UI for individual Piles
                 : ListView.builder(
                     itemCount: stockpile.length,
                     itemBuilder: (context, index) {
@@ -653,6 +718,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),
                               ),
+                            ),
+                            trailing: GestureDetector(
+                              child: Icon(
+                                Icons.favorite,
+                                color: Color(0xFF0C2539),
+                              ),
+                              onTap: () {
+                                print("::like button:::");
+                              },
                             ),
                           ),
                         ),
@@ -730,6 +804,7 @@ createAndUpdateDialog(
               }),
             ),
             actions: [
+              //cancel button
               TextButton(
                 child: Text(
                   "Cancel",
@@ -742,6 +817,7 @@ createAndUpdateDialog(
                   Navigator.of(context).pop();
                 },
               ),
+              //save button
               TextButton(
                 child: Text(
                   "Save",
@@ -753,7 +829,7 @@ createAndUpdateDialog(
                 onPressed: () {
                   if (name != null) {
                     if (existingPileItem != null) {
-                      //have exisitng pile item
+                      //if we have exisitng pile item
                       final newPileItem = existingPileItem.updated(name);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -768,12 +844,10 @@ createAndUpdateDialog(
                           ),
                         ),
                       );
-
                       Navigator.of(context).pop(newPileItem);
                     } else {
-                      //no existing person, create new one
+                      //no existing Pile, create new one
                       final newPileItem = StockPile(name: name!);
-
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,

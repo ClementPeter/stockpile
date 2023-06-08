@@ -18,24 +18,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'StockPile',
-        theme: ThemeData(
-          snackBarTheme: SnackBarThemeData(
-            contentTextStyle: GoogleFonts.raleway(
-              textStyle: const TextStyle(color: Colors.white),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          textSelectionTheme: const TextSelectionThemeData(
-            selectionHandleColor: Color(0xFF0C2539),
-          ),
-          indicatorColor: const Color(0xFF0C2539),
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            secondary: const Color(0xFF0C2539),
+      title: 'StockPile',
+      theme: ThemeData(
+        splashColor: Color(0xFF0C2539),
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: GoogleFonts.raleway(
+            textStyle: const TextStyle(color: Colors.white),
+            fontWeight: FontWeight.w500,
           ),
         ),
-        //home: const MyHomePage(),
-        home: const SplashScreen());
+        textSelectionTheme: const TextSelectionThemeData(
+          selectionHandleColor: Color(0xFF0C2539),
+        ),
+        indicatorColor: const Color(0xFF0C2539),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          secondary: const Color(0xFF0C2539),
+        ),
+      ),
+      //home: const MyHomePage(),
+      home: const SplashScreen(),
+    );
   }
 }
 
