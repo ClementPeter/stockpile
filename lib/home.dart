@@ -398,6 +398,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stockpile/favourite.dart';
 import 'package:stockpile/model/stockpile.dart';
 import 'package:stockpile/providers/stockpile_stateNotifier.dart';
 import 'package:stockpile/widget/custom_fab.dart';
@@ -496,6 +497,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: TextButton(
                           onPressed: () {
                             print("::::::Favourite Pile:::::::");
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return FavouritePage();
+                            }));
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
