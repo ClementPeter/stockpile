@@ -19,3 +19,5 @@ samples, guidance on mobile development, and a full API reference.
 ## 📸 Screen shots
 
 
+
+<img width="347" alt="Screenshot 2023-06-07 at 06 41 28" src="https://github.com/ClementPeter/stockpile/assets/61213263/4117ab22-c1fc-42cb-b0ee-d3242cc8bf34">
