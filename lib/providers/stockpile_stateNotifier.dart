@@ -4,7 +4,8 @@ import 'package:stockpile/model/stockpile.dart';
 //PERFORMING CRUD OPERATION WITH STATE NOTIFIER
 //Specify the provider which our app would access globally;
 //Adding the type of the provider is also very helpful for readability
-final stockPileStateNotifierProvider =  StateNotifierProvider<StockPileStateNotifier, List<StockPile>>((ref) {
+final stockPileStateNotifierProvider =
+    StateNotifierProvider<StockPileStateNotifier, List<StockPile>>((ref) {
   //We keep our state dynamic to take an empty List so data can be added to it;hence it can be mutable
   return StockPileStateNotifier([]);
 });
@@ -26,7 +27,7 @@ class StockPileStateNotifier extends StateNotifier<List<StockPile>> {
     // print("::::::::::::::${state.stateLength}::::::::::::::::::::");
   }
 
-//Remove an existing pile
+  //Remove an existing pile
   void removePile(StockPile pileToRemove) {
     // print("::::::::::::::${pileToRemove.name}::::::::::::::::::::");
     //locate the pile to remove
@@ -42,7 +43,8 @@ class StockPileStateNotifier extends StateNotifier<List<StockPile>> {
 
     if (oldPileItem.name != updatedPileItem.name) {
       //if it's not equal; meaning they are different, thus update the value
-      state[index] = oldPileItem.updated(updatedPileItem.name);
+      state[index] =
+          oldPileItem.updated(name: updatedPileItem.name, isFavourite: false);
     }
   }
 

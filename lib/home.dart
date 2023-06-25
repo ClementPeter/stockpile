@@ -835,7 +835,10 @@ createAndUpdateDialog(
                   if (name != null) {
                     if (existingPileItem != null) {
                       //if we have exisitng pile item
-                      final newPileItem = existingPileItem.updated(name);
+                      final newPileItem = existingPileItem.updated(
+                        name: name,
+                        isFavourite: false,
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
@@ -852,7 +855,8 @@ createAndUpdateDialog(
                       Navigator.of(context).pop(newPileItem);
                     } else {
                       //no existing Pile, create new one
-                      final newPileItem = StockPile(name: name!);
+                      final newPileItem =
+                          StockPile(name: name!, isFavourite: false);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
