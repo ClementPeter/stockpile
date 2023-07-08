@@ -53,3 +53,82 @@ class StockPileStateNotifier extends StateNotifier<List<StockPile>> {
     state = [];
   }
 }
+
+//
+//
+//
+//
+//
+//
+//
+///
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:stockpile/model/stockpile.dart';
+
+// //PERFORMING CRUD OPERATION WITH STATE NOTIFIER and adding Favourite feature
+
+// final stockPileStateNotifierProvider =
+//     StateNotifierProvider<StockPileStateNotifier, List<StockPile>>((ref) {
+//   //We keep our state dynamic to take an empty List so data can be added to it;hence it can be mutable
+//   return StockPileStateNotifier([]);
+// });
+
+// class StockPileStateNotifier extends StateNotifier<List<StockPile>> {
+//   // StockPileStateNotifier(
+//   //     super.state); //make our state overriddeable - ask chatgpt
+
+//   StockPileStateNotifier(List<StockPile> state) : super(state);
+
+//   //Add to data to our state
+//   void addPile(StockPile pile) {
+//     state = [...state, pile];
+//     // print("::::::::::::::${state.stateLength}::::::::::::::::::::");
+//   }
+
+//   //Remove an existing pile
+//   void removePile(StockPile pileToRemove) {
+//     // print("::::::::::::::${pileToRemove.name}::::::::::::::::::::");
+//     //locate the pile to remove
+//     state = state.where((pile) => pile != pileToRemove).toList();
+//   }
+
+//   void updatePile(StockPile updatedPileItem) {
+//     //to make an update; we check if the item already exists in our [state] and get the index
+//     final index = state.indexOf(updatedPileItem);
+
+//     //if it exists we get the actual data by accessing the state index
+//     final oldPileItem = state[index];
+
+//     if (oldPileItem.name != updatedPileItem.name) {
+//       //if it's not equal; meaning they are different, thus update the value
+//       state[index] =
+//           oldPileItem.updated(name: updatedPileItem.name, isFavourite: false);
+//     }
+//   }
+
+//   //clear pile ; By setting our state to be empty
+//   void clearPile() {
+//     state = [];
+//   }
+// }

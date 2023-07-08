@@ -19,7 +19,7 @@ import 'package:stockpile/model/stockpile.dart';
 //   }
 // }
 
-class FavouriteNotifier extends StateNotifier {
+class FavouriteNotifier extends StateNotifier<List<StockPile>> {
   FavouriteNotifier() : super([]);
 
   void updateFavourite(StockPile pile, bool isFavourite) {
@@ -33,6 +33,27 @@ class FavouriteNotifier extends StateNotifier {
         .toList();
   }
 }
+
+// //"allFilmsProvider" provides
+// final allFilmsProvider =
+//     StateNotifierProvider<FilmsNotifier, List<Film>>((ref) => FilmsNotifier());
+
+//Watching allFilmsProvider to get the selected favourites and non favourites from allFilmsProvider
+// final favoriteFilmProvider = Provider<Iterable<Film>>(
+//   (ref) => ref.watch(allFilmsProvider).where((film) => film.isFavourite),
+// );
+
+// final notfavoriteFilmProvider = Provider<Iterable<Film>>(
+//     (ref) => ref.watch(allFilmsProvider).where((film) => !film.isFavourite));
+
+// ////////////////////////
+// final allFavouritePileProvider =
+//     StateNotifierProvider<FavouriteNotifier, List<StockPile>>(
+//         (ref) => FavouriteNotifier());
+
+// final favouritePileProvider = Provider<Iterable<StockPile>>((ref) {
+//   return ref.watch(allFavouritePileProvider);
+// });
 
 class FavouritePage extends StatelessWidget {
   const FavouritePage({super.key});
@@ -52,6 +73,20 @@ class FavouritePage extends StatelessWidget {
             fontSize: 24,
           ),
         ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: Column(
+            children: [],
+          )),
+          const Divider(height: 5),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(),
+            ),
+          )
+        ],
       ),
     );
   }

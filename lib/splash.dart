@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stockpile/home.dart';
 
-//
+//App aplash screen
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
   @override
@@ -19,21 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
   //Splash Screen
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0XFFFCFAFF),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'images/stockpile.png',
-                width: 250,
-                height: 250,
-              ),
-            ],
-          ),
+      resizeToAvoidBottomInset: true,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'images/stockpile.png',
+              width: 250,
+              height: 250,
+            ),
+          ],
         ),
       ),
     );
@@ -46,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MyHomePage(),
+        builder: (context) => MyHomePage(),
       ),
     );
   }
