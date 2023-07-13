@@ -3,57 +3,57 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stockpile/model/stockpile.dart';
 
-// // //Films Notifier modifies the state of the "allFilms" List using StateNotifer
-// class FilmsNotifier extends StateNotifier<List<Film>> {
-//   FilmsNotifier() : super([]);
+// // // //Films Notifier modifies the state of the "allFilms" List using StateNotifer
+// // class FilmsNotifier extends StateNotifier<List<Film>> {
+// //   FilmsNotifier() : super([]);
 
-//   void update(Film film, bool isFavourite) {
+// //   void update(Film film, bool isFavourite) {
+// //     //check through the contents in the state and if the id is the same
+// //     //in order to replace it in "state" which is  a List of things
+
+// //     state = state
+// //         .map((thisFilm) => thisFilm.id == film.id
+// //             ? thisFilm.copyWith(isFavourite: isFavourite)
+// //             : thisFilm)
+// //         .toList();
+// //   }
+// // }
+
+// class FavouriteNotifier extends StateNotifier<List<StockPile>> {
+//   FavouriteNotifier() : super([]);
+
+//   void updateFavourite(StockPile pile, bool isFavourite) {
 //     //check through the contents in the state and if the id is the same
 //     //in order to replace it in "state" which is  a List of things
 
 //     state = state
-//         .map((thisFilm) => thisFilm.id == film.id
-//             ? thisFilm.copyWith(isFavourite: isFavourite)
-//             : thisFilm)
+//         .map((thisPile) => thisPile.name == pile.name
+//             ? thisPile.updated(name: pile.name, isFavourite: isFavourite)
+//             : thisPile)
 //         .toList();
 //   }
 // }
 
-class FavouriteNotifier extends StateNotifier<List<StockPile>> {
-  FavouriteNotifier() : super([]);
+// // //"allFilmsProvider" provides
+// // final allFilmsProvider =
+// //     StateNotifierProvider<FilmsNotifier, List<Film>>((ref) => FilmsNotifier());
 
-  void updateFavourite(StockPile pile, bool isFavourite) {
-    //check through the contents in the state and if the id is the same
-    //in order to replace it in "state" which is  a List of things
+// //Watching allFilmsProvider to get the selected favourites and non favourites from allFilmsProvider
+// // final favoriteFilmProvider = Provider<Iterable<Film>>(
+// //   (ref) => ref.watch(allFilmsProvider).where((film) => film.isFavourite),
+// // );
 
-    state = state
-        .map((thisPile) => thisPile.name == pile.name
-            ? thisPile.updated(name: pile.name, isFavourite: isFavourite)
-            : thisPile)
-        .toList();
-  }
-}
+// // final notfavoriteFilmProvider = Provider<Iterable<Film>>(
+// //     (ref) => ref.watch(allFilmsProvider).where((film) => !film.isFavourite));
 
-// //"allFilmsProvider" provides
-// final allFilmsProvider =
-//     StateNotifierProvider<FilmsNotifier, List<Film>>((ref) => FilmsNotifier());
+// // ////////////////////////
+// // final allFavouritePileProvider =
+// //     StateNotifierProvider<FavouriteNotifier, List<StockPile>>(
+// //         (ref) => FavouriteNotifier());
 
-//Watching allFilmsProvider to get the selected favourites and non favourites from allFilmsProvider
-// final favoriteFilmProvider = Provider<Iterable<Film>>(
-//   (ref) => ref.watch(allFilmsProvider).where((film) => film.isFavourite),
-// );
-
-// final notfavoriteFilmProvider = Provider<Iterable<Film>>(
-//     (ref) => ref.watch(allFilmsProvider).where((film) => !film.isFavourite));
-
-// ////////////////////////
-// final allFavouritePileProvider =
-//     StateNotifierProvider<FavouriteNotifier, List<StockPile>>(
-//         (ref) => FavouriteNotifier());
-
-// final favouritePileProvider = Provider<Iterable<StockPile>>((ref) {
-//   return ref.watch(allFavouritePileProvider);
-// });
+// // final favouritePileProvider = Provider<Iterable<StockPile>>((ref) {
+// //   return ref.watch(allFavouritePileProvider);
+// // });
 
 class FavouritePage extends StatelessWidget {
   const FavouritePage({super.key});
@@ -64,14 +64,14 @@ class FavouritePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        backgroundColor: const Color(0XFFFCFAFF),
+        //backgroundColor: const Color(0XFFFCFAFF),
         title: Text(
           "Favourite",
-          style: GoogleFonts.raleway(
-            textStyle: const TextStyle(color: Color(0xFF0C2539)),
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+          // style: GoogleFonts.raleway(
+          //   //textStyle: const TextStyle(color: Color(0xFF0C2539)),
+          //   fontWeight: FontWeight.bold,
+          //   fontSize: 24,
+          // ),
         ),
       ),
       body: Column(

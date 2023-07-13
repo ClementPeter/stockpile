@@ -2,8 +2,85 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stockpile/splash.dart';
+import 'package:stockpile/utils/app_theme.dart';
+import 'package:stockpile/utils/theme_provider.dart';
 
-// //Working Code - Stockpile Statenotifier provider without Dark mode and fav feature
+///Perfectly Working Code - Stockpile StateNotifier/ChangeNotifier provider without Dark mode and fav feature
+void main() {
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appThemeMode = ref.watch(appThemeChangeNotifierProvider);
+    return MaterialApp(
+      title: 'StockPile',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode:
+          appThemeMode.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
+      // theme: ThemeData(
+      //   scaffoldBackgroundColor: const Color(0XFFFCFAFF),
+      //   splashColor: const Color(0xFF0C2539),
+      //   snackBarTheme: SnackBarThemeData(
+      //     contentTextStyle: GoogleFonts.raleway(
+      //       textStyle: const TextStyle(color: Colors.white),
+      //       fontWeight: FontWeight.w500,
+      //     ),
+      //   ),
+      //   textSelectionTheme: const TextSelectionThemeData(
+      //     selectionHandleColor: Color(0xFF0C2539),
+      //   ),
+      //   indicatorColor: const Color(0xFF0C2539),
+      //   colorScheme: ColorScheme.fromSwatch().copyWith(
+      //     secondary: const Color(0xFF0C2539),
+      //   ),
+      //   textButtonTheme: TextButtonThemeData(
+      //     style: TextButton.styleFrom(
+      //       foregroundColor: const Color(0xFF0C2539),
+      //     ),
+      //   ),
+
+      //   //useMaterial3: true,
+      // ),
+      //home: const MyHomePage(),
+      home: const SplashScreen(),
+    );
+  }
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+///Currently Working ON - Stockpile Statenotifier provider with Dark mode and fav feature
 // void main() {
 //   runApp(
 //     const ProviderScope(
@@ -40,83 +117,13 @@ import 'package:stockpile/splash.dart';
 //             foregroundColor: const Color(0xFF0C2539),
 //           ),
 //         ),
-
 //         //useMaterial3: true,
 //       ),
 //       //home: const MyHomePage(),
-//       home: const SplashScreen(),
+//       //  home: const SplashScreen(),
 //     );
 //   }
 // }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-// //Working Code - Stockpile Statenotifier provider with Dark mode and fav feature
-void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'StockPile',
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0XFFFCFAFF),
-        splashColor: const Color(0xFF0C2539),
-        snackBarTheme: SnackBarThemeData(
-          contentTextStyle: GoogleFonts.raleway(
-            textStyle: const TextStyle(color: Colors.white),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        textSelectionTheme: const TextSelectionThemeData(
-          selectionHandleColor: Color(0xFF0C2539),
-        ),
-        indicatorColor: const Color(0xFF0C2539),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          secondary: const Color(0xFF0C2539),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: const Color(0xFF0C2539),
-          ),
-        ),
-        //useMaterial3: true,
-      ),
-      //home: const MyHomePage(),
-      //  home: const SplashScreen(),
-    );
-  }
-}
 
 //
 //
@@ -195,8 +202,10 @@ class MyApp extends StatelessWidget {
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:stockpile/model/stockpile.dart';
 // import 'package:stockpile/providers/stockpile_changeNotifier.dart';
-// import 'package:stockpile/widget/custom_fab.dart';
-// import 'package:stockpile/widget/custom_snackbar.dart';
+// //import 'package:stockpile/widget/custom_fab.dart';
+// //import 'package:stockpile/widget/custom_snackbar.dart';
+// import 'package:stockpile/widgets/custom_fab.dart';
+// import 'package:stockpile/widgets/custom_snackbar.dart';
 
 // void main() async {
 //   //Setup HIVE
@@ -303,10 +312,10 @@ class MyApp extends StatelessWidget {
 //   }
 
 //   //controllers
-//   //TextEditingController _nameController = TextEditingController();
-//   //TextEditingController _quantityController = TextEditingController();
+//   TextEditingController _nameController = TextEditingController();
+//   TextEditingController _quantityController = TextEditingController();
 
-//   //show form bottom modal sheet
+//   // //show form bottom modal sheet
 //   // void showForm(BuildContext ctx, int? itemKey) async {
 //   //   //if item is not equal to null ; meaning a key is provided then we are editing an item
 //   //   if (itemKey != null) {
@@ -377,7 +386,7 @@ class MyApp extends StatelessWidget {
 
 //   //*******************************************************//
 
-// //creating the dialog function used by the ListTile and FAB
+//   //creating the dialog function used by the ListTile and FAB
 
 //   final pileController = TextEditingController();
 
@@ -649,4 +658,6 @@ class MyApp extends StatelessWidget {
 //       ),
 //     );
 //   }
+
+//   //Widget CustomFloatingActionButton({required int spaceFromRight, required int spaceFromBottom, required type, required Container openFloatingActionButton, required Icon closeFloatingActionButton, required List<RenderObjectWidget> options, required Scaffold body}) {}
 // }
