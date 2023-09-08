@@ -88,6 +88,27 @@ class FavouritePage extends StatelessWidget {
           )
         ],
       ),
+      // body: CustomScrollView(
+      //   slivers: [
+      //     SliverToBoxAdapter(
+      //       child: Column(
+      //         mainAxisSize: MainAxisSize.min,
+      //         children: [
+      //           Expanded(
+      //               child: Column(
+      //             children: [],
+      //           )),
+      //           const Divider(height: 5),
+      //           Expanded(
+      //             child: SingleChildScrollView(
+      //               child: Container(),
+      //             ),
+      //           )
+      //         ],
+      //       ),
+      //     )
+      //   ],
+      // ),
     );
   }
 }

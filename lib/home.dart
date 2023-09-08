@@ -6,11 +6,10 @@ import 'package:stockpile/providers/stockpile_changeNotifier.dart';
 import 'package:stockpile/utils/app_theme.dart';
 import 'package:stockpile/utils/theme_provider.dart';
 import 'package:stockpile/widgets/create_update_dialog.dart';
-//import 'package:stockpile/widget/custom_fab.dart';
-//import 'package:stockpile/widget/custom_snackbar.dart';
 import 'package:stockpile/widgets/custom_fab.dart';
 import 'package:stockpile/widgets/custom_snackbar.dart';
 
+//Building StockPile using ChangeNOtifierProvider
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
@@ -149,44 +148,6 @@ class MyHomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // PopupMenuItem(
-                      //   child: TextButton(
-                      //     onPressed: () {
-                      //       print("::::::change theme:::::::");
-                      //       // appThemeMode.isDarkModeEnabled
-                      //       //     ? appThemeMode.setDarkTheme()
-                      //       //     : appThemeMode.setLightTheme();
-                      //       if (appThemeMode.isDarkModeEnabled == true) {
-                      //         appThemeMode.setDarkTheme();
-                      //       } else {
-                      //         if (appThemeMode.isDarkModeEnabled == false) {
-                      //           appThemeMode.setLightTheme();
-                      //         }
-                      //       }
-                      //     },
-                      //     child:  Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                      //         Text(
-                      //           "Theme",
-                      //           style: TextStyle(
-                      //             color: Color(0xFF0C2539),
-                      //             fontSize: 18,
-                      //           ),
-                      //         ),
-                      //         Icon(
-                      //           Icons.dark_mode_outlined,
-                      //           color: Colors.black,
-                      //         ),
-                      //         Switch(value: appThemeMode.isDarkModeEnabled, onChanged: (bool enabled){
-                      //             appThemeMode.isDarkModeEnabled = enabled;
-
-                      //         })
-                      //       ],
-
-                      //     ),
-                      //   ),
-                      // ),
                       PopupMenuItem(
                         enabled: false,
                         child: Row(
@@ -202,17 +163,18 @@ class MyHomePage extends StatelessWidget {
                             ),
                             //const SizedBox(width: 10),
                             Switch(
+                              activeColor: Color.fromARGB(255, 123, 155, 125),
                               value: appThemeMode.isDarkModeEnabled,
                               onChanged: (bool enabled) {
                                 //  appThemeMode.isDarkModeEnabled = enabled;
-                                // if (enabled) {
-                                //   appThemeMode.setDarkTheme();
-                                // } else {
-                                //   appThemeMode.setLightTheme();
-                                // }
-                                enabled
-                                    ? appThemeMode.setDarkTheme()
-                                    : appThemeMode.setLightTheme();
+                                if (enabled) {
+                                  appThemeMode.setDarkTheme();
+                                } else {
+                                  appThemeMode.setLightTheme();
+                                }
+                                // enabled
+                                //     ? appThemeMode.setDarkTheme()
+                                //     : appThemeMode.setLightTheme();
                                 // notifyListeners();
                               },
                             )
